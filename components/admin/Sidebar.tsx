@@ -18,6 +18,8 @@ const nav = [
   { label: "Clientes", href: "/admin/crm/clientes", icon: "👥" },
   { label: "Pedidos", href: "/admin/crm/pedidos", icon: "🛒" },
   { label: "Ventas", href: "/admin/ventas", icon: "💰" },
+  { section: "Marketing" },
+  { label: "Campañas", href: "/admin/campanas", icon: "🎬" },
 ]
 
 export default function Sidebar() {
