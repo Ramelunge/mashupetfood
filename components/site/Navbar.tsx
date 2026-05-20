@@ -28,12 +28,12 @@ export default function Navbar() {
       position: "sticky",
       top: 0,
       zIndex: 50,
-      background: scrolled ? "rgba(20,12,4,0.98)" : "rgba(26,18,9,0.90)",
+      background: scrolled ? "rgba(255,248,240,0.97)" : "rgba(255,248,240,0.93)",
       backdropFilter: "blur(14px)",
       WebkitBackdropFilter: "blur(14px)",
-      borderBottom: "1px solid rgba(224,123,43,0.15)",
-      transition: "background 300ms, box-shadow 300ms",
-      boxShadow: scrolled ? "0 2px 24px rgba(0,0,0,0.30)" : "none",
+      borderBottom: scrolled ? "1px solid #F0E6D4" : "1px solid rgba(224,123,43,0.10)",
+      transition: "background 300ms, border-color 300ms, box-shadow 300ms",
+      boxShadow: scrolled ? "0 2px 16px rgba(58,42,26,0.08)" : "none",
     }}>
       <div className="container-site" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: "68px" }}>
 
@@ -46,27 +46,27 @@ export default function Navbar() {
         </Link>
 
         {/* Nav desktop */}
-        <nav style={{ display: "flex", gap: "0.25rem", alignItems: "center" }} className="nav-desktop">
+        <nav style={{ display: "flex", gap: "0.125rem", alignItems: "center" }} className="nav-desktop">
           {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
               style={{
-                padding: "0.45rem 0.9rem",
+                padding: "0.45rem 0.875rem",
                 borderRadius: "var(--radius-full)",
-                color: "rgba(255,248,240,0.78)",
+                color: "#5C4033",
                 fontWeight: 500,
                 fontSize: "0.9rem",
                 textDecoration: "none",
                 transition: "background 150ms, color 150ms",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = "rgba(224,123,43,0.12)"
-                e.currentTarget.style.color = "var(--color-primary-light)"
+                e.currentTarget.style.background = "var(--color-primary-surface)"
+                e.currentTarget.style.color = "var(--color-primary)"
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = "transparent"
-                e.currentTarget.style.color = "rgba(255,248,240,0.78)"
+                e.currentTarget.style.color = "#5C4033"
               }}
             >
               {l.label}
@@ -80,14 +80,14 @@ export default function Navbar() {
           <button
             onClick={toggle}
             aria-label={`Carrito de cotización — ${qty} productos`}
-            style={{ position: "relative", background: "none", border: "none", cursor: "pointer", padding: "0.5rem", color: "rgba(255,248,240,0.78)", borderRadius: "var(--radius-full)", transition: "background 150ms, color 150ms" }}
+            style={{ position: "relative", background: "none", border: "none", cursor: "pointer", padding: "0.5rem", color: "#5C4033", borderRadius: "var(--radius-full)", transition: "background 150ms, color 150ms" }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(224,123,43,0.12)"
-              e.currentTarget.style.color = "var(--color-primary-light)"
+              e.currentTarget.style.background = "var(--color-primary-surface)"
+              e.currentTarget.style.color = "var(--color-primary)"
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = "transparent"
-              e.currentTarget.style.color = "rgba(255,248,240,0.78)"
+              e.currentTarget.style.color = "#5C4033"
             }}
           >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -113,7 +113,7 @@ export default function Navbar() {
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
             aria-expanded={menuOpen}
-            style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,248,240,0.85)", padding: "0.5rem", borderRadius: "var(--radius-sm)" }}
+            style={{ background: "none", border: "none", cursor: "pointer", color: "#5C4033", padding: "0.5rem", borderRadius: "var(--radius-sm)" }}
           >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
               {menuOpen ? (
@@ -128,13 +128,15 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div style={{ background: "#1A1209", borderTop: "1px solid rgba(224,123,43,0.15)", padding: "1rem 1.25rem 1.5rem" }}>
+        <div style={{ background: "#FFF8F0", borderTop: "1px solid #F0E6D4", padding: "1rem 1.25rem 1.5rem" }}>
           {links.map((l) => (
-            <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)} style={{ display: "block", padding: "0.8rem 0", color: "rgba(255,248,240,0.85)", fontWeight: 500, textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.06)", fontSize: "1rem" }}>
+            <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)}
+              style={{ display: "block", padding: "0.8rem 0", color: "#5C4033", fontWeight: 500, textDecoration: "none", borderBottom: "1px solid #F0E6D4", fontSize: "1rem" }}>
               {l.label}
             </Link>
           ))}
-          <Link href="/contacto" className="btn btn-primary" onClick={() => setMenuOpen(false)} style={{ marginTop: "1rem", justifyContent: "center", width: "100%" }}>
+          <Link href="/contacto" className="btn btn-primary" onClick={() => setMenuOpen(false)}
+            style={{ marginTop: "1rem", justifyContent: "center", width: "100%" }}>
             Cotizar por WhatsApp
           </Link>
         </div>

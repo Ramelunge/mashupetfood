@@ -12,7 +12,7 @@ interface Props {
 
 export default function Footer({ instagram, facebook, email, horario, whatsapp }: Props) {
   return (
-    <footer style={{ background: "#1A1209", color: "rgba(255,248,240,0.75)", marginTop: "auto" }}>
+    <footer style={{ background: "#3B2A1A", color: "rgba(255,248,240,0.80)", marginTop: "auto" }}>
       <div className="container-site" style={{ padding: "3.5rem 0 2rem" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "2.5rem", marginBottom: "2.5rem" }}>
 
@@ -30,7 +30,7 @@ export default function Footer({ instagram, facebook, email, horario, whatsapp }
                 Mashu<span style={{ color: "var(--color-primary-light)" }}>.</span>
               </span>
             </Link>
-            <p style={{ fontSize: "0.9rem", lineHeight: 1.7, color: "rgba(255,248,240,0.55)", maxWidth: "260px" }}>
+            <p style={{ fontSize: "0.9rem", lineHeight: 1.7, color: "rgba(255,248,240,0.65)", maxWidth: "260px" }}>
               Alimento premium para tu mascota. Hecho con ingredientes naturales y el amor que se merecen.
             </p>
             <div style={{ display: "flex", gap: "0.75rem" }}>
@@ -62,9 +62,9 @@ export default function Footer({ instagram, facebook, email, horario, whatsapp }
               {[["Inicio", "/"], ["Catálogo", "/catalogo"], ["Novedades", "/novedades"], ["Contacto", "/contacto"]].map(([label, href]) => (
                 <li key={href}>
                   <Link href={href}
-                    style={{ color: "rgba(255,248,240,0.55)", textDecoration: "none", fontSize: "0.9rem", transition: "color 0.2s" }}
+                    style={{ color: "rgba(255,248,240,0.65)", textDecoration: "none", fontSize: "0.9rem", transition: "color 0.2s" }}
                     onMouseEnter={e => e.currentTarget.style.color = "var(--color-primary-light)"}
-                    onMouseLeave={e => e.currentTarget.style.color = "rgba(255,248,240,0.55)"}
+                    onMouseLeave={e => e.currentTarget.style.color = "rgba(255,248,240,0.65)"}
                   >{label}</Link>
                 </li>
               ))}
@@ -78,19 +78,19 @@ export default function Footer({ instagram, facebook, email, horario, whatsapp }
               {email && (
                 <li style={{ display: "flex", gap: "0.5rem", alignItems: "flex-start" }}>
                   <span style={{ color: "var(--color-primary)", flexShrink: 0, marginTop: "1px" }}>✉</span>
-                  <span style={{ color: "rgba(255,248,240,0.60)", wordBreak: "break-all" }}>{email}</span>
+                  <span style={{ color: "rgba(255,248,240,0.70)", wordBreak: "break-all" }}>{email}</span>
                 </li>
               )}
               {whatsapp && (
                 <li style={{ display: "flex", gap: "0.5rem", alignItems: "flex-start" }}>
                   <span style={{ color: "var(--color-primary)", flexShrink: 0, marginTop: "1px" }}>📱</span>
-                  <span style={{ color: "rgba(255,248,240,0.60)" }}>+{whatsapp}</span>
+                  <span style={{ color: "rgba(255,248,240,0.70)" }}>+{whatsapp}</span>
                 </li>
               )}
               {horario && (
                 <li style={{ display: "flex", gap: "0.5rem", alignItems: "flex-start" }}>
                   <span style={{ color: "var(--color-primary)", flexShrink: 0, marginTop: "1px" }}>🕐</span>
-                  <span style={{ color: "rgba(255,248,240,0.60)", whiteSpace: "pre-line" }}>{horario}</span>
+                  <span style={{ color: "rgba(255,248,240,0.70)", whiteSpace: "pre-line" }}>{horario}</span>
                 </li>
               )}
               {!email && !whatsapp && !horario && (
