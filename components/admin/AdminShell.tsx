@@ -10,7 +10,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
   }
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", background: "#f5f5f5" }}>
+    <div style={{ display: "flex", minHeight: "100vh", background: "#1A1209" }}>
       <Sidebar />
       <main style={{ flex: 1, overflowX: "hidden", display: "flex", flexDirection: "column" }}>
         {children}

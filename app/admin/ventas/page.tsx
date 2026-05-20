@@ -21,56 +21,57 @@ export default async function VentasPage() {
   }, {})
 
   const stats = [
-    { label: "Total vendido", valor: `$${totalVentas.toFixed(0)}`, sub: "pedidos entregados", color: "#10b981" },
-    { label: "Pedidos totales", valor: todos.length, sub: "todos los estados", color: "var(--color-primary)" },
-    { label: "Entregados", valor: entregados.length, sub: "completados", color: "#6366f1" },
-    { label: "Ticket promedio", valor: entregados.length ? `$${(totalVentas / entregados.length).toFixed(0)}` : "—", sub: "por pedido", color: "#f59e0b" },
+    { label: "Total vendido",   valor: `$${totalVentas.toLocaleString("es-AR", { minimumFractionDigits: 0 })}`, sub: "pedidos entregados", color: "#34D399" },
+    { label: "Pedidos totales", valor: todos.length,       sub: "todos los estados",   color: "#E07B2B" },
+    { label: "Entregados",      valor: entregados.length,  sub: "completados",          color: "#818CF8" },
+    { label: "Ticket promedio", valor: entregados.length ? `$${Math.round(totalVentas / entregados.length).toLocaleString("es-AR")}` : "—", sub: "por pedido", color: "#F59E0B" },
   ]
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <div style={{ marginBottom: "1.5rem" }}>
-        <h1 style={{ fontSize: "1.5rem", fontWeight: 800, color: "var(--color-secondary)" }}>Ventas</h1>
+    <div style={{ padding: "2rem", maxWidth: "1100px" }}>
+      <div style={{ marginBottom: "1.75rem" }}>
+        <p style={{ fontSize: "0.7rem", fontWeight: 700, color: "#8B7B6F", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.25rem" }}>Reportes</p>
+        <h1 style={{ fontSize: "1.75rem", fontWeight: 700, color: "#ffffff", letterSpacing: "-0.02em", lineHeight: 1.2 }}>Ventas</h1>
       </div>
 
       {/* KPIs */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "1.25rem", marginBottom: "2rem" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1rem", marginBottom: "1.75rem" }}>
         {stats.map((s) => (
-          <div key={s.label} style={{ background: "#fff", borderRadius: "var(--radius-card)", padding: "1.5rem", boxShadow: "var(--shadow-card)", borderLeft: `4px solid ${s.color}` }}>
-            <p style={{ fontSize: "2rem", fontWeight: 800, color: s.color }}>{s.valor}</p>
-            <p style={{ fontWeight: 600, color: "var(--color-secondary)", fontSize: "0.88rem" }}>{s.label}</p>
-            <p style={{ fontSize: "0.78rem", color: "var(--color-muted)" }}>{s.sub}</p>
+          <div key={s.label} style={{ background: "#2A1F15", border: "1px solid #4D3A2E", borderRadius: "12px", padding: "1.25rem" }}>
+            <p style={{ fontSize: "2rem", fontWeight: 700, color: s.color, letterSpacing: "-0.03em", fontVariantNumeric: "tabular-nums", lineHeight: 1, marginBottom: "0.4rem" }}>{s.valor}</p>
+            <p style={{ fontWeight: 600, color: "#B8A8A0", fontSize: "0.82rem" }}>{s.label}</p>
+            <p style={{ fontSize: "0.72rem", color: "#8B7B6F", marginTop: "0.1rem" }}>{s.sub}</p>
           </div>
         ))}
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem" }}>
         {/* Por canal */}
-        <div style={{ background: "#fff", borderRadius: "var(--radius-card)", boxShadow: "var(--shadow-card)", padding: "1.5rem" }}>
-          <h2 style={{ fontWeight: 700, color: "var(--color-secondary)", marginBottom: "1rem", fontSize: "1rem" }}>Pedidos por canal</h2>
+        <div style={{ background: "#2A1F15", border: "1px solid #4D3A2E", borderRadius: "12px", padding: "1.5rem" }}>
+          <h2 style={{ fontWeight: 600, color: "#ffffff", marginBottom: "1rem", fontSize: "0.9rem" }}>Pedidos por canal</h2>
           {Object.entries(porCanal).length === 0
-            ? <p style={{ color: "var(--color-muted)", fontSize: "0.9rem" }}>Sin datos aún.</p>
+            ? <p style={{ color: "#8B7B6F", fontSize: "0.85rem" }}>Sin datos aún.</p>
             : Object.entries(porCanal).map(([canal, count]) => (
-              <div key={canal} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.6rem 0", borderBottom: "1px solid var(--color-cream-dark)" }}>
-                <span style={{ textTransform: "capitalize", fontSize: "0.9rem" }}>{canal}</span>
-                <span style={{ fontWeight: 700, color: "var(--color-primary)" }}>{count}</span>
+              <div key={canal} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.65rem 0", borderBottom: "1px solid #321E12" }}>
+                <span style={{ textTransform: "capitalize", fontSize: "0.88rem", color: "#B8A8A0" }}>{canal}</span>
+                <span style={{ fontWeight: 700, color: "#E07B2B", fontVariantNumeric: "tabular-nums" }}>{count}</span>
               </div>
             ))
           }
         </div>
 
         {/* Últimas ventas */}
-        <div style={{ background: "#fff", borderRadius: "var(--radius-card)", boxShadow: "var(--shadow-card)", padding: "1.5rem" }}>
-          <h2 style={{ fontWeight: 700, color: "var(--color-secondary)", marginBottom: "1rem", fontSize: "1rem" }}>Últimas ventas entregadas</h2>
+        <div style={{ background: "#2A1F15", border: "1px solid #4D3A2E", borderRadius: "12px", padding: "1.5rem" }}>
+          <h2 style={{ fontWeight: 600, color: "#ffffff", marginBottom: "1rem", fontSize: "0.9rem" }}>Últimas ventas entregadas</h2>
           {entregados.length === 0
-            ? <p style={{ color: "var(--color-muted)", fontSize: "0.9rem" }}>Sin ventas entregadas aún.</p>
+            ? <p style={{ color: "#8B7B6F", fontSize: "0.85rem" }}>Sin ventas entregadas aún.</p>
             : entregados.slice(0, 8).map((p) => (
-              <div key={p.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.6rem 0", borderBottom: "1px solid var(--color-cream-dark)" }}>
+              <div key={p.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.65rem 0", borderBottom: "1px solid #321E12" }}>
                 <div>
-                  <p style={{ fontSize: "0.88rem", fontWeight: 600, color: "var(--color-secondary)" }}>{p.cliente_nombre ?? "Sin nombre"}</p>
-                  <p style={{ fontSize: "0.75rem", color: "var(--color-muted)" }}>{new Date(p.created_at).toLocaleDateString("es-AR")}</p>
+                  <p style={{ fontSize: "0.85rem", fontWeight: 600, color: "#ffffff" }}>{p.cliente_nombre ?? "Sin nombre"}</p>
+                  <p style={{ fontSize: "0.73rem", color: "#8B7B6F" }}>{new Date(p.created_at).toLocaleDateString("es-AR", { day: "numeric", month: "short" })}</p>
                 </div>
-                <span style={{ fontWeight: 700, color: "#10b981" }}>{p.total ? `$${Number(p.total).toFixed(0)}` : "—"}</span>
+                <span style={{ fontWeight: 700, color: "#34D399", fontVariantNumeric: "tabular-nums" }}>{p.total ? `$${Number(p.total).toLocaleString("es-AR", { minimumFractionDigits: 0 })}` : "—"}</span>
               </div>
             ))
           }
