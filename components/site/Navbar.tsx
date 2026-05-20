@@ -28,10 +28,10 @@ export default function Navbar() {
       position: "sticky",
       top: 0,
       zIndex: 50,
-      background: scrolled ? "rgba(255,248,240,0.97)" : "rgba(255,248,240,0.93)",
+      background: scrolled ? "rgba(255,255,255,0.98)" : "rgba(255,255,255,0.94)",
       backdropFilter: "blur(14px)",
       WebkitBackdropFilter: "blur(14px)",
-      borderBottom: scrolled ? "1px solid #F0E6D4" : "1px solid rgba(224,123,43,0.10)",
+      borderBottom: scrolled ? "1px solid #EDE0D0" : "1px solid rgba(224,123,43,0.12)",
       transition: "background 300ms, border-color 300ms, box-shadow 300ms",
       boxShadow: scrolled ? "0 2px 16px rgba(58,42,26,0.08)" : "none",
     }}>
@@ -128,7 +128,7 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div style={{ background: "#FFF8F0", borderTop: "1px solid #F0E6D4", padding: "1rem 1.25rem 1.5rem" }}>
+        <div style={{ background: "#ffffff", borderTop: "1px solid #EDE0D0", padding: "1rem 1.25rem 1.5rem" }}>
           {links.map((l) => (
             <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)}
               style={{ display: "block", padding: "0.8rem 0", color: "#5C4033", fontWeight: 500, textDecoration: "none", borderBottom: "1px solid #F0E6D4", fontSize: "1rem" }}>

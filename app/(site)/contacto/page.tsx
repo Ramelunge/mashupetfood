@@ -10,7 +10,7 @@ export default async function ContactoPage() {
   const cfg = Object.fromEntries((data ?? []).map((r) => [r.key, r.value]))
 
   return (
-    <div style={{ padding: "4rem 0 6rem", background: "#FFF8F0" }}>
+    <div style={{ padding: "4rem 0 6rem", background: "#F0E6D4" }}>
       <div className="container-site" style={{ maxWidth: "960px" }}>
 
         <div style={{ textAlign: "center", marginBottom: "3.5rem" }}>
@@ -26,7 +26,7 @@ export default async function ContactoPage() {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2.5rem", alignItems: "start" }} className="contact-grid">
           {/* Info */}
           <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-            <div style={{ background: "#fff", borderRadius: "var(--radius-lg)", padding: "2rem", boxShadow: "var(--shadow-card)", border: "1px solid var(--color-cream-dark)" }}>
+            <div style={{ background: "#ffffff", borderRadius: "var(--radius-lg)", padding: "2rem", border: "1px solid #EDE0D0", boxShadow: "0 1px 8px rgba(58,42,26,0.07)" }}>
               <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 700, color: "var(--color-secondary)", marginBottom: "1.5rem", fontSize: "1.1rem" }}>
                 Información de contacto
               </h3>

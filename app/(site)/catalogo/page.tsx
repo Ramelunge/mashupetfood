@@ -32,7 +32,7 @@ export default async function CatalogoPage({ searchParams }: Props) {
   if (orden === "nombre_asc") productos.sort((a, b) => a.nombre.localeCompare(b.nombre))
 
   return (
-    <div style={{ padding: "3rem 0 5rem", background: "var(--color-cream)", minHeight: "70vh" }}>
+    <div style={{ padding: "3rem 0 5rem", background: "#F0E6D4", minHeight: "70vh" }}>
       <div className="container-site">
         {/* Header */}
         <div style={{ marginBottom: "2rem" }}>
@@ -47,7 +47,7 @@ export default async function CatalogoPage({ searchParams }: Props) {
         <div style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: "2rem", alignItems: "start" }} className="catalogo-grid">
           {/* Sidebar filtros */}
           <aside>
-            <div style={{ background: "var(--color-surface)", borderRadius: "var(--radius-lg)", padding: "1.5rem", boxShadow: "var(--shadow-card)" }}>
+            <div style={{ background: "#ffffff", borderRadius: "var(--radius-lg)", padding: "1.5rem", border: "1px solid #EDE0D0", boxShadow: "0 1px 6px rgba(58,42,26,0.06)" }}>
               <h3 style={{ fontWeight: 700, fontSize: "0.8rem", color: "var(--color-secondary)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "1rem" }}>
                 Categorías
               </h3>
@@ -82,7 +82,7 @@ export default async function CatalogoPage({ searchParams }: Props) {
                   name="q"
                   defaultValue={q}
                   placeholder="Buscar productos..."
-                  style={{ width: "100%", padding: "0.65rem 1rem", borderRadius: "var(--radius-md)", border: "1.5px solid var(--color-cream-dark)", fontSize: "0.9rem", background: "#fff", outline: "none", color: "var(--color-secondary)" }}
+                  style={{ width: "100%", padding: "0.65rem 1rem", borderRadius: "var(--radius-md)", border: "1.5px solid #EDE0D0", fontSize: "0.9rem", background: "#fff", outline: "none", color: "#3B2A1A" }}
                 />
               </form>
               <CatalogoSortSelect defaultValue={orden} cat={cat} />

@@ -14,7 +14,7 @@ export default async function NovedadesPage() {
     .order("created_at", { ascending: false })
 
   return (
-    <div style={{ padding: "4rem 0 6rem", background: "#FFF8F0", minHeight: "60vh" }}>
+    <div style={{ padding: "4rem 0 6rem", background: "#F0E6D4", minHeight: "60vh" }}>
       <div className="container-site">
         <div style={{ marginBottom: "3rem" }}>
           <span className="section-label">Blog</span>
@@ -27,7 +27,7 @@ export default async function NovedadesPage() {
         </div>
 
         {(!posts || posts.length === 0) ? (
-          <div style={{ textAlign: "center", padding: "5rem 0", background: "#fff", borderRadius: "var(--radius-lg)", border: "1px solid var(--color-cream-dark)" }}>
+          <div style={{ textAlign: "center", padding: "5rem 0", background: "#ffffff", borderRadius: "var(--radius-lg)", border: "1px solid #EDE0D0", boxShadow: "0 1px 6px rgba(58,42,26,0.06)" }}>
             <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>📝</div>
             <p style={{ fontWeight: 600, color: "var(--color-secondary)", marginBottom: "0.5rem" }}>Próximamente el primer artículo.</p>
             <p style={{ color: "var(--color-muted)", fontSize: "0.9rem" }}>Volvé pronto para leer sobre nutrición y cuidado animal.</p>

@@ -13,7 +13,7 @@ export default function ContactForm() {
   }
 
   if (status === "ok") return (
-    <div style={{ background: "#fff", borderRadius: "var(--radius-card)", padding: "2rem", textAlign: "center", boxShadow: "var(--shadow-card)" }}>
+    <div style={{ background: "#ffffff", borderRadius: "16px", padding: "2rem", textAlign: "center", border: "1px solid #EDE0D0", boxShadow: "0 1px 8px rgba(58,42,26,0.07)" }}>
       <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>✅</div>
       <h3 style={{ fontWeight: 700, color: "var(--color-secondary)" }}>¡Mensaje recibido!</h3>
       <p style={{ color: "var(--color-muted)", marginTop: "0.5rem" }}>Te respondemos en menos de 24 horas.</p>
@@ -22,14 +22,15 @@ export default function ContactForm() {
 
   const inputStyle: React.CSSProperties = {
     width: "100%", padding: "0.75rem 1rem",
-    borderRadius: "var(--radius-btn)",
-    border: "1.5px solid var(--color-cream-dark)",
+    borderRadius: "999px",
+    border: "1.5px solid #EDE0D0",
     fontSize: "0.95rem", background: "#fff", outline: "none",
+    color: "#3B2A1A",
     transition: "border-color 0.2s",
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ background: "#fff", borderRadius: "var(--radius-card)", padding: "2rem", boxShadow: "var(--shadow-card)", display: "flex", flexDirection: "column", gap: "1rem" }}>
+    <form onSubmit={handleSubmit} style={{ background: "#ffffff", borderRadius: "16px", padding: "2rem", border: "1px solid #EDE0D0", boxShadow: "0 1px 8px rgba(58,42,26,0.07)", display: "flex", flexDirection: "column", gap: "1rem" }}>
       <h3 style={{ fontWeight: 700, color: "var(--color-secondary)", marginBottom: "0.25rem" }}>Envianos un mensaje</h3>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
