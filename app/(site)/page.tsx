@@ -118,7 +118,7 @@ export default async function HomePage() {
       {stats.length > 0 && <StatsCounter stats={stats} />}
 
       {/* ── 3. PROBLEMA / PAIN ── */}
-      <section id="main-content" className="section" style={{ background: "#fff" }}>
+      <section id="main-content" className="section" style={{ background: "#FFF8F0" }}>
         <div className="container-site" style={{ maxWidth: "860px", textAlign: "center", margin: "0 auto" }}>
           <RevealSection>
             <span className="section-label">El problema</span>
@@ -135,7 +135,7 @@ export default async function HomePage() {
                 { icon: "❌", text: "Harinas de carne de origen desconocido" },
                 { icon: "❌", text: "Colorantes y conservantes artificiales" },
               ].map((item) => (
-                <div key={item.text} style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start", padding: "1rem", background: "#fff5f5", borderRadius: "var(--radius-md)", border: "1px solid #fecaca" }}>
+                <div key={item.text} style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start", padding: "1rem", background: "#fff", borderRadius: "var(--radius-md)", border: "1px solid #fecaca" }}>
                   <span style={{ fontSize: "1.25rem", flexShrink: 0 }}>{item.icon}</span>
                   <p style={{ fontSize: "0.9rem", color: "#991b1b", fontWeight: 500, lineHeight: 1.5 }}>{item.text}</p>
                 </div>
@@ -169,7 +169,7 @@ export default async function HomePage() {
       </section>
 
       {/* ── 5. PRODUCTOS DESTACADOS ── */}
-      <section className="section" style={{ background: "#fff" }}>
+      <section className="section" style={{ background: "#F0E6D4" }}>
         <div className="container-site">
           <RevealSection style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "2.5rem", flexWrap: "wrap", gap: "1rem" }}>
             <div>
@@ -271,7 +271,7 @@ export default async function HomePage() {
 
       {/* ── 7. MARCAS ── */}
       {marcas.length > 0 && (
-        <section style={{ padding: "2.5rem 0", background: "#fff", borderTop: "1px solid var(--color-cream-dark)", borderBottom: "1px solid var(--color-cream-dark)" }}>
+        <section style={{ padding: "2.5rem 0", background: "#FFF8F0", borderTop: "1px solid var(--color-cream-dark)", borderBottom: "1px solid var(--color-cream-dark)" }}>
           <div className="container-site" style={{ textAlign: "center" }}>
             <p className="text-label" style={{ color: "var(--color-muted)", marginBottom: "1.5rem" }}>Trabajamos con las mejores marcas</p>
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", alignItems: "center", gap: "2.5rem" }}>
@@ -323,7 +323,7 @@ export default async function HomePage() {
       )}
 
       {/* ── 9. FAQ ── */}
-      <section className="section" style={{ background: "#fff" }}>
+      <section className="section" style={{ background: "#F0E6D4" }}>
         <div className="container-site" style={{ maxWidth: "760px", margin: "0 auto" }}>
           <RevealSection style={{ textAlign: "center", marginBottom: "3rem" }}>
             <span className="section-label">FAQ</span>
@@ -386,7 +386,7 @@ export default async function HomePage() {
 
 function FaqItem({ question, answer }: { question: string; answer: string }) {
   return (
-    <details style={{ background: "var(--color-cream)", borderRadius: "var(--radius-md)", border: "1px solid var(--color-cream-dark)", overflow: "hidden" }}>
+    <details style={{ background: "#ffffff", borderRadius: "var(--radius-md)", border: "1px solid var(--color-cream-dark)", overflow: "hidden" }}>
       <summary style={{ padding: "1.1rem 1.5rem", fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "0.975rem", color: "var(--color-secondary)", cursor: "pointer", listStyle: "none", display: "flex", justifyContent: "space-between", alignItems: "center", userSelect: "none" }}>
         {question}
         <span style={{ fontSize: "1.25rem", color: "var(--color-primary)", flexShrink: 0, marginLeft: "1rem", fontWeight: 300 }}>+</span>
