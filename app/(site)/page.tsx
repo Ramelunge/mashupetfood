@@ -97,15 +97,12 @@ export default async function HomePage() {
 
           {/* CTAs */}
           <div className="anim-hero-4" style={{ display: "flex", gap: "0.875rem", flexWrap: "wrap" }}>
-            <Link href="/catalogo" style={{
+            <Link href="/catalogo" className="hero-cta-primary" style={{
               display: "inline-flex", alignItems: "center", gap: "0.5rem",
               background: "#E07B2B", color: "#fff", fontWeight: 700, fontSize: "0.95rem",
               padding: "0.875rem 2rem", borderRadius: "8px", textDecoration: "none",
               transition: "background 150ms, transform 150ms",
-            }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "#D46A1A" }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "#E07B2B" }}
-            >
+            }}>
               Ver catálogo →
             </Link>
             <Link href="/contacto" style={{
@@ -479,6 +476,7 @@ export default async function HomePage() {
       </section>
 
       <style>{`
+        .hero-cta-primary:hover { background: #D46A1A !important; transform: translateY(-1px); }
         @keyframes scroll-line {
           0%   { transform: translateY(-100%); opacity: 1; }
           100% { transform: translateY(200%); opacity: 0; }
