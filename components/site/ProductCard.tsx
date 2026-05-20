@@ -77,7 +77,7 @@ export default function ProductCard({ producto }: { producto: Producto }) {
       onMouseLeave={handleMouseLeave}
     >
       {/* Imagen */}
-      <Link href={`/catalogo/${producto.slug}`} style={{ display: "block", position: "relative", paddingBottom: "75%", background: "var(--color-cream)" }}>
+      <Link href={`/catalogo/${producto.slug}`} style={{ display: "block", position: "relative", paddingBottom: "75%", background: "#ffffff" }}>
         {producto.imagen_url ? (
           <Image
             src={producto.imagen_url}

@@ -202,7 +202,7 @@ export default async function HomePage() {
               ].map((p, i) => (
                 <RevealSection key={p.nombre} className={`delay-${(i % 4) + 1}`}>
                   <article className="card" style={{ display: "flex", flexDirection: "column" }}>
-                    <div style={{ position: "relative", paddingBottom: "80%", background: "var(--color-cream)" }}>
+                    <div style={{ position: "relative", paddingBottom: "80%", background: "#ffffff" }}>
                       <Image src={p.img} alt={p.nombre} fill style={{ objectFit: "contain", padding: "1rem" }} />
                     </div>
                     <div style={{ padding: "1.25rem", flex: 1, display: "flex", flexDirection: "column", gap: "0.5rem" }}>
@@ -302,7 +302,7 @@ export default async function HomePage() {
                   <Link href={`/novedades/${post.slug}`} style={{ textDecoration: "none", display: "block" }}>
                     <article className="card">
                       {post.imagen_url && (
-                        <div style={{ position: "relative", paddingBottom: "52%", background: "var(--color-cream)" }}>
+                        <div style={{ position: "relative", paddingBottom: "52%", background: "#ffffff" }}>
                           <Image src={post.imagen_url} alt={post.titulo} fill style={{ objectFit: "cover" }} />
                         </div>
                       )}
