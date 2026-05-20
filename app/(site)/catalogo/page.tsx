@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server"
 import ProductCard from "@/components/site/ProductCard"
+import CatalogoSortSelect from "@/components/site/CatalogoSortSelect"
 import Link from "next/link"
 import type { Metadata } from "next"
 
@@ -35,21 +36,25 @@ export default async function CatalogoPage({ searchParams }: Props) {
       <div className="container-site">
         {/* Header */}
         <div style={{ marginBottom: "2rem" }}>
-          <h1 className="section-title">Catálogo de productos</h1>
-          <p className="section-sub">{productos.length} producto{productos.length !== 1 ? "s" : ""} encontrado{productos.length !== 1 ? "s" : ""}</p>
+          <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.75rem, 4vw, 2.5rem)", fontWeight: 800, color: "var(--color-secondary)", letterSpacing: "-0.02em", marginBottom: "0.5rem" }}>
+            Catálogo de productos
+          </h1>
+          <p style={{ color: "var(--color-muted)", fontSize: "0.95rem" }}>
+            {productos.length} producto{productos.length !== 1 ? "s" : ""} encontrado{productos.length !== 1 ? "s" : ""}
+          </p>
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: "2rem", alignItems: "start" }} className="catalogo-grid">
           {/* Sidebar filtros */}
           <aside>
-            <div style={{ background: "#fff", borderRadius: "var(--radius-card)", padding: "1.5rem", boxShadow: "var(--shadow-card)" }}>
-              <h3 style={{ fontWeight: 700, fontSize: "0.9rem", color: "var(--color-secondary)", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: "1rem" }}>
+            <div style={{ background: "var(--color-surface)", borderRadius: "var(--radius-lg)", padding: "1.5rem", boxShadow: "var(--shadow-card)" }}>
+              <h3 style={{ fontWeight: 700, fontSize: "0.8rem", color: "var(--color-secondary)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "1rem" }}>
                 Categorías
               </h3>
               <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.4rem" }}>
                 <li>
                   <Link href="/catalogo" style={{
-                    display: "block", padding: "0.5rem 0.75rem", borderRadius: "6px",
+                    display: "block", padding: "0.5rem 0.75rem", borderRadius: "var(--radius-sm)",
                     background: !cat ? "var(--color-primary)" : "transparent",
                     color: !cat ? "#fff" : "var(--color-secondary)", textDecoration: "none", fontSize: "0.9rem", fontWeight: 500,
                   }}>Todos</Link>
@@ -57,7 +62,7 @@ export default async function CatalogoPage({ searchParams }: Props) {
                 {categorias.map((c) => (
                   <li key={c.id}>
                     <Link href={`/catalogo?cat=${c.slug}`} style={{
-                      display: "block", padding: "0.5rem 0.75rem", borderRadius: "6px",
+                      display: "block", padding: "0.5rem 0.75rem", borderRadius: "var(--radius-sm)",
                       background: cat === c.slug ? "var(--color-primary)" : "transparent",
                       color: cat === c.slug ? "#fff" : "var(--color-secondary)", textDecoration: "none", fontSize: "0.9rem", fontWeight: 500,
                     }}>{c.nombre}</Link>
@@ -77,23 +82,10 @@ export default async function CatalogoPage({ searchParams }: Props) {
                   name="q"
                   defaultValue={q}
                   placeholder="Buscar productos..."
-                  style={{ width: "100%", padding: "0.65rem 1rem", borderRadius: "var(--radius-btn)", border: "1.5px solid var(--color-cream-dark)", fontSize: "0.9rem", background: "#fff", outline: "none" }}
+                  style={{ width: "100%", padding: "0.65rem 1rem", borderRadius: "var(--radius-md)", border: "1.5px solid var(--color-cream-dark)", fontSize: "0.9rem", background: "#fff", outline: "none", color: "var(--color-secondary)" }}
                 />
               </form>
-              <select
-                onChange={(e) => {
-                  const url = new URL(window.location.href)
-                  url.searchParams.set("orden", e.target.value)
-                  window.location.href = url.toString()
-                }}
-                defaultValue={orden ?? ""}
-                style={{ padding: "0.65rem 1rem", borderRadius: "var(--radius-btn)", border: "1.5px solid var(--color-cream-dark)", fontSize: "0.9rem", background: "#fff", cursor: "pointer" }}
-              >
-                <option value="">Ordenar por</option>
-                <option value="nombre_asc">Nombre A-Z</option>
-                <option value="precio_asc">Precio: menor a mayor</option>
-                <option value="precio_desc">Precio: mayor a menor</option>
-              </select>
+              <CatalogoSortSelect defaultValue={orden} cat={cat} />
             </div>
 
             {productos.length > 0 ? (
