@@ -22,6 +22,7 @@ export default function LoginPage() {
       setError("Email o contraseña incorrectos.")
       setLoading(false)
     } else {
+      router.refresh()
       router.push("/admin/dashboard")
     }
   }
