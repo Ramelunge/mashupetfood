@@ -12,9 +12,9 @@ const links = [
 ]
 
 export default function Navbar() {
-  const [menuOpen, setMenuOpen]   = useState(false)
-  const [scrolled, setScrolled]   = useState(false)
-  const { count, toggle }         = useCartStore()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled]  = useState(false)
+  const { count, toggle }        = useCartStore()
   const qty = count()
 
   useEffect(() => {
@@ -28,19 +28,20 @@ export default function Navbar() {
       position: "sticky",
       top: 0,
       zIndex: 50,
-      background: scrolled ? "rgba(255,248,240,0.96)" : "rgba(255,248,240,0.85)",
-      backdropFilter: "blur(12px)",
-      WebkitBackdropFilter: "blur(12px)",
-      borderBottom: scrolled ? "1px solid var(--color-cream-dark)" : "1px solid transparent",
-      transition: "background 300ms, border-color 300ms, box-shadow 300ms",
-      boxShadow: scrolled ? "0 2px 16px rgba(58,42,26,0.08)" : "none",
+      background: scrolled ? "rgba(20,12,4,0.98)" : "rgba(26,18,9,0.90)",
+      backdropFilter: "blur(14px)",
+      WebkitBackdropFilter: "blur(14px)",
+      borderBottom: "1px solid rgba(224,123,43,0.15)",
+      transition: "background 300ms, box-shadow 300ms",
+      boxShadow: scrolled ? "0 2px 24px rgba(0,0,0,0.30)" : "none",
     }}>
       <div className="container-site" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: "68px" }}>
+
         {/* Logo */}
         <Link href="/" style={{ display: "flex", alignItems: "center", gap: "0.625rem", textDecoration: "none", flexShrink: 0 }}>
           <Image src="/products/Logo Isotipo.png" alt="Mashu" width={36} height={36} style={{ objectFit: "contain" }} />
-          <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "1.15rem", color: "var(--color-secondary)", letterSpacing: "-0.02em" }}>
-            Mashu<span style={{ color: "var(--color-primary)" }}>.</span>
+          <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "1.2rem", color: "var(--color-primary)", letterSpacing: "-0.02em" }}>
+            Mashu<span style={{ color: "var(--color-primary-light)" }}>.</span>
           </span>
         </Link>
 
@@ -51,21 +52,21 @@ export default function Navbar() {
               key={l.href}
               href={l.href}
               style={{
-                padding: "0.45rem 0.85rem",
+                padding: "0.45rem 0.9rem",
                 borderRadius: "var(--radius-full)",
-                color: "var(--color-secondary)",
+                color: "rgba(255,248,240,0.78)",
                 fontWeight: 500,
                 fontSize: "0.9rem",
                 textDecoration: "none",
                 transition: "background 150ms, color 150ms",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = "var(--color-cream-dark)"
-                e.currentTarget.style.color = "var(--color-primary)"
+                e.currentTarget.style.background = "rgba(224,123,43,0.12)"
+                e.currentTarget.style.color = "var(--color-primary-light)"
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = "transparent"
-                e.currentTarget.style.color = "var(--color-secondary)"
+                e.currentTarget.style.color = "rgba(255,248,240,0.78)"
               }}
             >
               {l.label}
@@ -79,9 +80,15 @@ export default function Navbar() {
           <button
             onClick={toggle}
             aria-label={`Carrito de cotización — ${qty} productos`}
-            style={{ position: "relative", background: "none", border: "none", cursor: "pointer", padding: "0.5rem", color: "var(--color-secondary)", borderRadius: "var(--radius-full)", transition: "background 150ms" }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "var(--color-cream-dark)")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+            style={{ position: "relative", background: "none", border: "none", cursor: "pointer", padding: "0.5rem", color: "rgba(255,248,240,0.78)", borderRadius: "var(--radius-full)", transition: "background 150ms, color 150ms" }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(224,123,43,0.12)"
+              e.currentTarget.style.color = "var(--color-primary-light)"
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "transparent"
+              e.currentTarget.style.color = "rgba(255,248,240,0.78)"
+            }}
           >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
@@ -106,7 +113,7 @@ export default function Navbar() {
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
             aria-expanded={menuOpen}
-            style={{ background: "none", border: "none", cursor: "pointer", color: "var(--color-secondary)", padding: "0.5rem", borderRadius: "var(--radius-sm)" }}
+            style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(255,248,240,0.85)", padding: "0.5rem", borderRadius: "var(--radius-sm)" }}
           >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
               {menuOpen ? (
@@ -121,9 +128,9 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div style={{ background: "var(--color-cream)", borderTop: "1px solid var(--color-cream-dark)", padding: "1rem 1.25rem 1.5rem" }}>
+        <div style={{ background: "#1A1209", borderTop: "1px solid rgba(224,123,43,0.15)", padding: "1rem 1.25rem 1.5rem" }}>
           {links.map((l) => (
-            <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)} style={{ display: "block", padding: "0.75rem 0", color: "var(--color-secondary)", fontWeight: 500, textDecoration: "none", borderBottom: "1px solid var(--color-cream-dark)", fontSize: "1rem" }}>
+            <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)} style={{ display: "block", padding: "0.8rem 0", color: "rgba(255,248,240,0.85)", fontWeight: 500, textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.06)", fontSize: "1rem" }}>
               {l.label}
             </Link>
           ))}

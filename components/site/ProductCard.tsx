@@ -1,7 +1,7 @@
 "use client"
 import Image from "next/image"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { useCartStore } from "@/store/cart"
 
 interface Variante { id: string; nombre: string; stock: number; precio_extra: number }
@@ -18,10 +18,9 @@ interface Producto {
 
 export default function ProductCard({ producto }: { producto: Producto }) {
   const { add, open } = useCartStore()
-  const [selectedVariante, setSelectedVariante] = useState<Variante | undefined>(
-    producto.variantes?.[0]
-  )
+  const [selectedVariante, setSelectedVariante] = useState<Variante | undefined>(producto.variantes?.[0])
   const [added, setAdded] = useState(false)
+  const cardRef = useRef<HTMLElement>(null)
 
   const precio = (producto.precio ?? 0) + (selectedVariante?.precio_extra ?? 0)
 
@@ -39,25 +38,43 @@ export default function ProductCard({ producto }: { producto: Producto }) {
     setTimeout(() => setAdded(false), 2000)
   }
 
+  function handleMouseMove(e: React.MouseEvent<HTMLElement>) {
+    const el = cardRef.current
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    const cx = rect.width / 2
+    const cy = rect.height / 2
+    const rx = ((y - cy) / cy) * -6
+    const ry = ((x - cx) / cx) * 6
+    el.style.transform = `perspective(700px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px) scale(1.015)`
+    el.style.boxShadow = `0 16px 48px rgba(58,42,26,0.18), 0 0 0 1px rgba(224,123,43,0.12)`
+  }
+
+  function handleMouseLeave() {
+    const el = cardRef.current
+    if (!el) return
+    el.style.transform = "perspective(700px) rotateX(0) rotateY(0) translateY(0) scale(1)"
+    el.style.boxShadow = "var(--shadow-card)"
+  }
+
   return (
     <article
+      ref={cardRef}
       style={{
         background: "#fff",
-        borderRadius: "var(--radius-card)",
+        borderRadius: "var(--radius-lg)",
         boxShadow: "var(--shadow-card)",
         overflow: "hidden",
         display: "flex",
         flexDirection: "column",
-        transition: "transform 0.2s ease, box-shadow 0.2s ease",
+        transition: "transform 300ms var(--ease-out), box-shadow 300ms var(--ease-out)",
+        willChange: "transform",
+        transformStyle: "preserve-3d",
       }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = "translateY(-4px)"
-        e.currentTarget.style.boxShadow = "0 12px 40px rgba(58,42,26,0.15)"
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = "translateY(0)"
-        e.currentTarget.style.boxShadow = "var(--shadow-card)"
-      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
     >
       {/* Imagen */}
       <Link href={`/catalogo/${producto.slug}`} style={{ display: "block", position: "relative", paddingBottom: "75%", background: "var(--color-cream)" }}>
@@ -87,7 +104,7 @@ export default function ProductCard({ producto }: { producto: Producto }) {
       {/* Info */}
       <div style={{ padding: "1.25rem", display: "flex", flexDirection: "column", gap: "0.75rem", flex: 1 }}>
         <Link href={`/catalogo/${producto.slug}`} style={{ textDecoration: "none" }}>
-          <h3 style={{ fontWeight: 700, fontSize: "1rem", color: "var(--color-secondary)", lineHeight: 1.3 }}>
+          <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "1rem", color: "var(--color-secondary)", lineHeight: 1.3 }}>
             {producto.nombre}
           </h3>
         </Link>
@@ -111,8 +128,8 @@ export default function ProductCard({ producto }: { producto: Producto }) {
                   borderRadius: "4px",
                   border: "1.5px solid",
                   borderColor: selectedVariante?.id === v.id ? "var(--color-primary)" : "var(--color-cream-dark)",
-                  background: selectedVariante?.id === v.id ? "var(--color-primary)" : "transparent",
-                  color: selectedVariante?.id === v.id ? "#fff" : "var(--color-muted)",
+                  background: selectedVariante?.id === v.id ? "var(--color-primary-surface)" : "transparent",
+                  color: selectedVariante?.id === v.id ? "var(--color-primary-dark)" : "var(--color-muted)",
                   fontSize: "0.78rem",
                   fontWeight: 600,
                   cursor: v.stock === 0 ? "not-allowed" : "pointer",
@@ -130,7 +147,7 @@ export default function ProductCard({ producto }: { producto: Producto }) {
         <div style={{ marginTop: "auto", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "0.75rem" }}>
           <div>
             {precio > 0 && (
-              <span style={{ fontWeight: 700, fontSize: "1.15rem", color: "var(--color-primary)" }}>
+              <span style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "1.15rem", color: "var(--color-primary)" }}>
                 ${precio.toFixed(2)}
               </span>
             )}
@@ -143,10 +160,10 @@ export default function ProductCard({ producto }: { producto: Producto }) {
 
           <button
             onClick={handleAdd}
-            className="btn-primary"
-            style={{ fontSize: "0.82rem", padding: "0.5rem 1rem", background: added ? "var(--color-accent)" : undefined }}
+            className="btn btn-primary btn-sm"
+            style={{ background: added ? "var(--color-accent)" : undefined }}
           >
-            {added ? "✓ Agregado" : "+ Cotizar"}
+            {added ? "✓ Listo" : "+ Cotizar"}
           </button>
         </div>
       </div>
