@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link"
 import Image from "next/image"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useCartStore } from "@/store/cart"
 
 const links = [
@@ -12,39 +12,61 @@ const links = [
 ]
 
 export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const { count, toggle } = useCartStore()
+  const [menuOpen, setMenuOpen]   = useState(false)
+  const [scrolled, setScrolled]   = useState(false)
+  const { count, toggle }         = useCartStore()
   const qty = count()
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
+
   return (
-    <header
-      style={{
-        position: "sticky",
-        top: 0,
-        zIndex: 50,
-        background: "rgba(255,248,240,0.95)",
-        backdropFilter: "blur(8px)",
-        borderBottom: "1px solid var(--color-cream-dark)",
-      }}
-    >
-      <div className="container-site" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: "72px" }}>
+    <header style={{
+      position: "sticky",
+      top: 0,
+      zIndex: 50,
+      background: scrolled ? "rgba(255,248,240,0.96)" : "rgba(255,248,240,0.85)",
+      backdropFilter: "blur(12px)",
+      WebkitBackdropFilter: "blur(12px)",
+      borderBottom: scrolled ? "1px solid var(--color-cream-dark)" : "1px solid transparent",
+      transition: "background 300ms, border-color 300ms, box-shadow 300ms",
+      boxShadow: scrolled ? "0 2px 16px rgba(58,42,26,0.08)" : "none",
+    }}>
+      <div className="container-site" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: "68px" }}>
         {/* Logo */}
-        <Link href="/" style={{ display: "flex", alignItems: "center", gap: "0.75rem", textDecoration: "none" }}>
-          <Image src="/products/Logo.png" alt="Mashu Petfood" width={48} height={48} style={{ objectFit: "contain" }} />
-          <span style={{ fontWeight: 800, fontSize: "1.25rem", color: "var(--color-primary)", letterSpacing: "-0.02em" }}>
-            Mashu
+        <Link href="/" style={{ display: "flex", alignItems: "center", gap: "0.625rem", textDecoration: "none", flexShrink: 0 }}>
+          <Image src="/products/Logo Isotipo.png" alt="Mashu" width={36} height={36} style={{ objectFit: "contain" }} />
+          <span style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "1.15rem", color: "var(--color-secondary)", letterSpacing: "-0.02em" }}>
+            Mashu<span style={{ color: "var(--color-primary)" }}>.</span>
           </span>
         </Link>
 
         {/* Nav desktop */}
-        <nav style={{ display: "flex", gap: "2rem" }} className="nav-desktop">
+        <nav style={{ display: "flex", gap: "0.25rem", alignItems: "center" }} className="nav-desktop">
           {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
-              style={{ color: "var(--color-secondary)", fontWeight: 500, textDecoration: "none", fontSize: "0.95rem", transition: "color 0.2s" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-primary)")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--color-secondary)")}
+              style={{
+                padding: "0.45rem 0.85rem",
+                borderRadius: "var(--radius-full)",
+                color: "var(--color-secondary)",
+                fontWeight: 500,
+                fontSize: "0.9rem",
+                textDecoration: "none",
+                transition: "background 150ms, color 150ms",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "var(--color-cream-dark)"
+                e.currentTarget.style.color = "var(--color-primary)"
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "transparent"
+                e.currentTarget.style.color = "var(--color-secondary)"
+              }}
             >
               {l.label}
             </Link>
@@ -52,67 +74,45 @@ export default function Navbar() {
         </nav>
 
         {/* Actions */}
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          {/* Carrito */}
+        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          {/* Cart */}
           <button
             onClick={toggle}
-            aria-label="Abrir carrito de cotización"
-            style={{
-              position: "relative",
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              padding: "0.5rem",
-              color: "var(--color-secondary)",
-            }}
+            aria-label={`Carrito de cotización — ${qty} productos`}
+            style={{ position: "relative", background: "none", border: "none", cursor: "pointer", padding: "0.5rem", color: "var(--color-secondary)", borderRadius: "var(--radius-full)", transition: "background 150ms" }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "var(--color-cream-dark)")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
               <line x1="3" y1="6" x2="21" y2="6" />
               <path d="M16 10a4 4 0 01-8 0" />
             </svg>
             {qty > 0 && (
-              <span
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  right: 0,
-                  background: "var(--color-primary)",
-                  color: "#fff",
-                  fontSize: "0.65rem",
-                  fontWeight: 700,
-                  width: "18px",
-                  height: "18px",
-                  borderRadius: "50%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                {qty}
+              <span style={{ position: "absolute", top: "2px", right: "2px", background: "var(--color-primary)", color: "#fff", fontSize: "0.6rem", fontWeight: 800, minWidth: "17px", height: "17px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", lineHeight: 1 }}>
+                {qty > 9 ? "9+" : qty}
               </span>
             )}
           </button>
 
-          {/* Hamburger mobile */}
+          {/* CTA desktop */}
+          <Link href="/contacto" className="btn btn-primary btn-sm nav-cta">
+            Cotizar →
+          </Link>
+
+          {/* Hamburger */}
           <button
             className="nav-hamburger"
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Menú"
-            style={{ background: "none", border: "none", cursor: "pointer", color: "var(--color-secondary)" }}
+            aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+            aria-expanded={menuOpen}
+            style={{ background: "none", border: "none", cursor: "pointer", color: "var(--color-secondary)", padding: "0.5rem", borderRadius: "var(--radius-sm)" }}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
               {menuOpen ? (
-                <>
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </>
+                <><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></>
               ) : (
-                <>
-                  <line x1="3" y1="6" x2="21" y2="6" />
-                  <line x1="3" y1="12" x2="21" y2="12" />
-                  <line x1="3" y1="18" x2="21" y2="18" />
-                </>
+                <><line x1="3" y1="7" x2="21" y2="7" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="17" x2="21" y2="17" /></>
               )}
             </svg>
           </button>
@@ -121,32 +121,24 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div style={{ background: "var(--color-cream)", borderTop: "1px solid var(--color-cream-dark)", padding: "1rem" }} className="nav-mobile-menu">
+        <div style={{ background: "var(--color-cream)", borderTop: "1px solid var(--color-cream-dark)", padding: "1rem 1.25rem 1.5rem" }}>
           {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              onClick={() => setMenuOpen(false)}
-              style={{
-                display: "block",
-                padding: "0.75rem 0",
-                color: "var(--color-secondary)",
-                fontWeight: 500,
-                textDecoration: "none",
-                borderBottom: "1px solid var(--color-cream-dark)",
-              }}
-            >
+            <Link key={l.href} href={l.href} onClick={() => setMenuOpen(false)} style={{ display: "block", padding: "0.75rem 0", color: "var(--color-secondary)", fontWeight: 500, textDecoration: "none", borderBottom: "1px solid var(--color-cream-dark)", fontSize: "1rem" }}>
               {l.label}
             </Link>
           ))}
+          <Link href="/contacto" className="btn btn-primary" onClick={() => setMenuOpen(false)} style={{ marginTop: "1rem", justifyContent: "center", width: "100%" }}>
+            Cotizar por WhatsApp
+          </Link>
         </div>
       )}
 
       <style>{`
         .nav-desktop { display: flex; }
+        .nav-cta     { display: inline-flex; }
         .nav-hamburger { display: none; }
         @media (max-width: 768px) {
-          .nav-desktop { display: none; }
+          .nav-desktop, .nav-cta { display: none !important; }
           .nav-hamburger { display: block; }
         }
       `}</style>
