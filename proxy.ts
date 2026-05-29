@@ -21,17 +21,6 @@ export async function proxy(request: NextRequest) {
     }
   )
 
-  // Nueva home y rutas del rediseño
-  if (pathname === "/" || pathname === "/inicio") {
-    return NextResponse.rewrite(new URL("/previews/style-crumbl.html", request.url))
-  }
-  if (pathname === "/pedidos") {
-    return NextResponse.rewrite(new URL("/previews/page-pedidos.html", request.url))
-  }
-  if (pathname === "/giftcards") {
-    return NextResponse.rewrite(new URL("/previews/page-giftcards.html", request.url))
-  }
-
   // Proteger rutas /admin (excepto /admin/login)
   if (pathname.startsWith("/admin") && pathname !== "/admin/login") {
     const { data: { user } } = await supabase.auth.getUser()
