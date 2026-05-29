@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return {
       beforeFiles: [
+        { source: "/", destination: "/previews/style-crumbl.html" },
         { source: "/inicio", destination: "/previews/style-crumbl.html" },
         { source: "/pedidos", destination: "/previews/page-pedidos.html" },
         { source: "/giftcards", destination: "/previews/page-giftcards.html" },
