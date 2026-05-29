@@ -3,7 +3,7 @@ import { join } from "path"
 import { NextResponse } from "next/server"
 
 export function GET() {
-  const html = readFileSync(join(process.cwd(), "public/previews/style-crumbl.html"), "utf8")
+  const html = readFileSync(join(process.cwd(), "public/previews/inicio.html"), "utf8")
   return new NextResponse(html, {
     headers: { "Content-Type": "text/html; charset=utf-8" },
   })
