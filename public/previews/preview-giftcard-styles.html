@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gift Card Styles — Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,700;0,800;0,900;1,900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:#F0EBE3;padding:48px 32px;min-height:100vh}
+h1{font-size:1.1rem;font-weight:800;color:#3B2008;letter-spacing:.12em;text-transform:uppercase;text-align:center;margin-bottom:8px}
+.subtitle{font-size:.85rem;color:#9C6B4A;text-align:center;font-weight:600;margin-bottom:48px}
+
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;max-width:1200px;margin:0 auto}
+.col{display:flex;flex-direction:column;align-items:center;gap:14px}
+.option-label{font-size:.72rem;font-weight:900;letter-spacing:.15em;text-transform:uppercase;color:#3B2008;text-align:center}
+.option-desc{font-size:.78rem;color:#9C6B4A;text-align:center;font-weight:600;line-height:1.5;max-width:220px}
+
+/* CARD BASE */
+.card{width:100%;aspect-ratio:1.6/1;border-radius:18px;overflow:hidden;position:relative;box-shadow:5px 5px 0 #3B2008,0 12px 32px rgba(59,32,8,.2);border:2px solid rgba(59,32,8,.15);cursor:pointer;transition:transform .2s}
+.card:hover{transform:translateY(-4px)}
+
+/* ── OPTION A — Clean Emoji ── */
+.card-a{background:linear-gradient(145deg,#C4845A 0%,#E8A070 60%,#F2B880 100%)}
+.card-a-inner{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px;position:relative}
+.card-a-circles{position:absolute;inset:0;pointer-events:none}
+.card-a .emoji{font-size:3.2rem;filter:drop-shadow(0 4px 8px rgba(59,32,8,.2));line-height:1}
+.card-a .name{font-size:.9rem;font-weight:900;color:white;text-align:center;text-shadow:0 1px 4px rgba(59,32,8,.3);letter-spacing:.02em}
+.card-a .brand-pill{position:absolute;bottom:10px;right:12px;background:rgba(59,32,8,.25);backdrop-filter:blur(4px);border-radius:999px;padding:3px 10px;font-size:.62rem;font-weight:900;color:white;letter-spacing:.08em}
+.card-a .shine{position:absolute;top:0;left:-40%;width:35%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);transform:skewX(-20deg);pointer-events:none}
+
+/* ── OPTION B — Flat illustrated scene ── */
+.card-b{background:linear-gradient(145deg,#F5C300 0%,#FFD840 100%)}
+.card-b-scene{width:100%;height:100%;position:relative;overflow:hidden}
+
+/* ── OPTION C — Photo/Texture ── */
+.card-c{background:#1A0E06;overflow:hidden}
+.card-c-bg{position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(196,132,90,.06) 0,rgba(196,132,90,.06) 1px,transparent 1px,transparent 12px),repeating-linear-gradient(-45deg,rgba(245,195,0,.04) 0,rgba(245,195,0,.04) 1px,transparent 1px,transparent 12px),linear-gradient(145deg,#2C1A08 0%,#1A0E06 50%,#2C1A08 100%)}
+.card-c-content{position:relative;z-index:2;width:100%;height:100%;display:flex;flex-direction:column;padding:18px 20px;justify-content:space-between}
+.card-c-top{display:flex;justify-content:space-between;align-items:flex-start}
+.card-c-logo{font-size:.75rem;font-weight:900;color:rgba(245,195,0,.8);letter-spacing:.15em;text-transform:uppercase}
+.card-c-type{font-size:.6rem;font-weight:700;color:rgba(255,255,255,.3);letter-spacing:.12em;text-transform:uppercase}
+.card-c-mid{flex:1;display:flex;align-items:center;padding:4px 0}
+.card-c-name{font-size:1.35rem;font-weight:900;color:white;line-height:1.1}
+.card-c-name span{color:#F5C300;display:block}
+.card-c-bottom{display:flex;justify-content:space-between;align-items:flex-end}
+.card-c-paw{font-size:1.6rem;opacity:.35}
+.card-c-amount{font-size:.72rem;font-weight:800;color:rgba(245,195,0,.6);letter-spacing:.1em}
+.card-c-strip{position:absolute;right:0;top:0;bottom:0;width:6px;background:linear-gradient(180deg,#F5C300,#E8844A,#F5C300)}
+
+/* ── OPTION D — Bold Typography ── */
+.card-d{background:#3B2008;overflow:hidden}
+.card-d-pattern{position:absolute;inset:0;font-size:1.1rem;line-height:1.8;letter-spacing:.15em;color:rgba(245,195,0,.08);word-break:break-all;padding:6px;pointer-events:none;font-weight:900;overflow:hidden}
+.card-d-content{position:relative;z-index:2;width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;padding:16px 20px;gap:2px}
+.card-d-sub{font-size:.6rem;font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,195,0,.7)}
+.card-d-big{font-family:'Bebas Neue',sans-serif;font-size:2.6rem;color:white;line-height:.95;letter-spacing:.02em}
+.card-d-big span{color:#F5C300}
+.card-d-bar{width:40px;height:4px;background:#F5C300;border-radius:2px;margin:6px 0}
+.card-d-brand{font-size:.65rem;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35)}
+.card-d-emoji{position:absolute;right:16px;bottom:12px;font-size:2.2rem;opacity:.7}
+</style>
+</head>
+<body>
+
+<h1>Mashu Gift Cards — 4 Estilos</h1>
+<p class="subtitle">Hacé click en la que más te guste</p>
+
+<div class="grid">
+
+  <!-- A: CLEAN EMOJI -->
+  <div class="col">
+    <div class="card card-a">
+      <div class="card-a-inner">
+        <div class="card-a-circles">
+          <svg width="100%" height="100%" viewBox="0 0 280 175" fill="none">
+            <circle cx="240" cy="20" r="60" fill="rgba(255,255,255,0.07)"/>
+            <circle cx="20" cy="140" r="45" fill="rgba(255,255,255,0.06)"/>
+            <circle cx="140" cy="175" r="80" fill="rgba(255,255,255,0.04)"/>
+          </svg>
+        </div>
+        <div class="shine"></div>
+        <div class="emoji">🐾</div>
+        <div class="name">Cuatro Patitas</div>
+        <div class="brand-pill">mashu petfood</div>
+      </div>
+    </div>
+    <div class="option-label">Opción A</div>
+    <div class="option-desc">Emoji grande centrado, degradado limpio, minimal y premium</div>
+  </div>
+
+  <!-- B: FLAT SCENE -->
+  <div class="col">
+    <div class="card card-b">
+      <div class="card-b-scene">
+        <svg viewBox="0 0 280 175" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+          <!-- Sky & ground -->
+          <rect width="280" height="175" fill="url(#skyGrad)"/>
+          <defs>
+            <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#FFD840"/>
+              <stop offset="100%" stop-color="#F5C300"/>
+            </linearGradient>
+          </defs>
+          <!-- Ground -->
+          <ellipse cx="140" cy="168" rx="220" ry="25" fill="rgba(59,32,8,0.08)"/>
+          <!-- Clouds -->
+          <g fill="rgba(255,255,255,0.55)">
+            <ellipse cx="42" cy="28" rx="22" ry="12"/>
+            <ellipse cx="58" cy="28" rx="18" ry="10"/>
+            <ellipse cx="230" cy="22" rx="20" ry="11"/>
+            <ellipse cx="246" cy="22" rx="16" ry="9"/>
+          </g>
+          <!-- House -->
+          <rect x="160" y="90" width="90" height="70" rx="3" fill="white" stroke="rgba(59,32,8,0.3)" stroke-width="2"/>
+          <polygon points="155,90 205,58 255,90" fill="#C4845A" stroke="rgba(59,32,8,0.3)" stroke-width="2"/>
+          <rect x="190" y="120" width="22" height="40" rx="2" fill="#F2E9DC" stroke="rgba(59,32,8,0.3)" stroke-width="1.5"/>
+          <rect x="167" y="100" width="22" height="18" rx="2" fill="#B8D8F0" stroke="rgba(59,32,8,0.2)" stroke-width="1.5"/>
+          <rect x="225" y="100" width="22" height="18" rx="2" fill="#B8D8F0" stroke="rgba(59,32,8,0.2)" stroke-width="1.5"/>
+          <rect x="188" y="62" width="34" height="12" rx="6" fill="rgba(59,32,8,0.6)"/>
+          <text x="205" y="72" font-family="Nunito" font-size="7" font-weight="900" fill="white" text-anchor="middle">MASHU</text>
+          <!-- Puppy sitting outside -->
+          <circle cx="100" cy="120" r="28" fill="white" stroke="rgba(59,32,8,0.2)" stroke-width="1.5"/>
+          <ellipse cx="82" cy="103" rx="10" ry="14" fill="#C4845A"/>
+          <ellipse cx="118" cy="103" rx="10" ry="14" fill="#C4845A"/>
+          <ellipse cx="82" cy="103" rx="5.5" ry="9" fill="#E8A070"/>
+          <ellipse cx="118" cy="103" rx="5.5" ry="9" fill="#E8A070"/>
+          <circle cx="93" cy="117" r="5" fill="#3B2008"/>
+          <circle cx="107" cy="117" r="5" fill="#3B2008"/>
+          <circle cx="94.5" cy="115.5" r="1.5" fill="white"/>
+          <circle cx="108.5" cy="115.5" r="1.5" fill="white"/>
+          <ellipse cx="100" cy="125" rx="4" ry="2.8" fill="#3B2008"/>
+          <path d="M95 129 Q100 133 105 129" stroke="#3B2008" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <!-- Bow -->
+          <path d="M90 93 Q96 88 100 93 Q104 88 110 93 Q104 98 100 93 Q96 98 90 93Z" fill="rgba(59,32,8,0.6)"/>
+          <circle cx="100" cy="93" r="2.5" fill="rgba(255,255,255,0.5)"/>
+          <!-- Paw prints path -->
+          <g fill="rgba(59,32,8,0.15)">
+            <ellipse cx="138" cy="155" rx="5" ry="4"/>
+            <ellipse cx="145" cy="149" rx="3" ry="2.5"/>
+            <ellipse cx="131" cy="149" rx="3" ry="2.5"/>
+            <circle cx="138" cy="144" r="1.8"/>
+            <ellipse cx="158" cy="158" rx="5" ry="4"/>
+            <ellipse cx="165" cy="152" rx="3" ry="2.5"/>
+            <ellipse cx="151" cy="152" rx="3" ry="2.5"/>
+            <circle cx="158" cy="147" r="1.8"/>
+          </g>
+          <!-- Card name -->
+          <rect x="0" y="148" width="280" height="27" fill="rgba(59,32,8,0.55)"/>
+          <text x="20" y="166" font-family="Nunito" font-size="11" font-weight="900" fill="white">Bienvenido al pack</text>
+          <text x="260" y="166" font-family="Nunito" font-size="9" font-weight="800" fill="#F5C300" text-anchor="end">mashu</text>
+        </svg>
+      </div>
+    </div>
+    <div class="option-label">Opción B</div>
+    <div class="option-desc">Escena ilustrada flat: casa, cachorro, ambiente completo</div>
+  </div>
+
+  <!-- C: PHOTO/TEXTURE -->
+  <div class="col">
+    <div class="card card-c">
+      <div class="card-c-bg"></div>
+      <div class="card-c-strip"></div>
+      <div class="card-c-content">
+        <div class="card-c-top">
+          <div class="card-c-logo">mashu petfood</div>
+          <div class="card-c-type">Gift Card</div>
+        </div>
+        <div class="card-c-mid">
+          <div class="card-c-name">
+            Happy<span>Woofday</span>
+          </div>
+        </div>
+        <div class="card-c-bottom">
+          <div class="card-c-paw">🐾</div>
+          <div class="card-c-amount">NUTRICIÓN NATURAL · SANTA CRUZ</div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label">Opción C</div>
+    <div class="option-desc">Estilo tarjeta de crédito premium: oscura, dorada, tipografía fuerte</div>
+  </div>
+
+  <!-- D: BOLD TYPOGRAPHY -->
+  <div class="col">
+    <div class="card card-d">
+      <div class="card-d-pattern">🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾🐾</div>
+      <div class="card-d-content">
+        <div class="card-d-sub">Para el mejor</div>
+        <div class="card-d-big">MIMOS<br><span>GARAN-<br>TIZADOS</span></div>
+        <div class="card-d-bar"></div>
+        <div class="card-d-brand">mashu petfood · gift card</div>
+      </div>
+      <div class="card-d-emoji">❤️</div>
+    </div>
+    <div class="option-label">Opción D</div>
+    <div class="option-desc">Bold tipografía, fondo café oscuro, patrón de patas, muy impactante</div>
+  </div>
+
+</div>
+
+</body>
+</html>
