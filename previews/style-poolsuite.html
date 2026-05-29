@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mashu × Poolsuite OS</title>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;image-rendering:pixelated}
+:root{
+  --desktop:#1F6B5E;
+  --desktop2:#2A8A75;
+  --silver:#C0C0C0;
+  --silver-dark:#808080;
+  --silver-light:#E0E0E0;
+  --title-bar:#000080;
+  --title-text:#fff;
+  --white:#fff;
+  --black:#000;
+  --orange:#E07B2B;
+  --sys-font:'VT323',monospace;
+  --px-font:'Press Start 2P',monospace;
+}
+html,body{width:100%;height:100%;min-height:100vh}
+body{font-family:var(--sys-font);background:var(--desktop);background-image:radial-gradient(ellipse at 20% 20%,var(--desktop2) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,#1A5A4E 0%,transparent 50%);overflow-x:hidden;font-size:16px}
+
+/* CRT scanlines effect */
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.015) 2px,rgba(0,0,0,0.015) 4px);pointer-events:none;z-index:9999}
+
+/* TASKBAR */
+.taskbar{position:fixed;bottom:0;left:0;right:0;height:36px;background:var(--silver);border-top:2px solid var(--white);display:flex;align-items:center;padding:0 4px;gap:4px;z-index:1000}
+.taskbar::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:var(--silver-dark)}
+.start-btn{display:flex;align-items:center;gap:4px;padding:4px 12px;background:var(--silver);border:2px outset var(--white);font-family:var(--px-font);font-size:6px;color:var(--black);cursor:pointer;height:26px;font-weight:bold}
+.start-btn:active{border-style:inset}
+.start-icon{font-size:14px}
+.taskbar-sep{width:1px;height:24px;background:var(--silver-dark);margin:0 4px}
+.taskbar-clock{margin-left:auto;border:2px inset var(--silver-dark);padding:4px 8px;font-family:var(--sys-font);font-size:14px;background:var(--silver);min-width:80px;text-align:center}
+.task-btn{display:flex;align-items:center;gap:4px;padding:2px 8px;background:var(--silver);border:2px outset var(--white);font-family:var(--sys-font);font-size:14px;height:26px;cursor:pointer}
+.task-btn.active{border-style:inset;background:var(--silver-dark);color:var(--white)}
+
+/* DESKTOP ICONS */
+.desktop-icons{position:fixed;top:16px;left:16px;display:flex;flex-direction:column;gap:16px;z-index:500}
+.d-icon{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:6px;width:72px}
+.d-icon:hover{background:rgba(0,0,128,0.3)}
+.d-icon .ico{font-size:32px;display:block;text-align:center;text-shadow:1px 1px 0 rgba(0,0,0,0.3)}
+.d-icon .lbl{font-family:var(--sys-font);font-size:13px;color:var(--white);text-align:center;text-shadow:1px 1px 0 var(--black),0 1px 0 var(--black);line-height:1.2}
+
+/* WINDOWS */
+.window{position:absolute;background:var(--silver);border:2px outset var(--silver-light);box-shadow:3px 3px 0 rgba(0,0,0,0.5)}
+.title-bar{background:linear-gradient(to right,var(--title-bar),#1084D0);padding:3px 4px;display:flex;align-items:center;justify-content:space-between;gap:4px}
+.title-bar-text{font-family:var(--px-font);font-size:7px;color:var(--title-text);flex:1;letter-spacing:0.5px}
+.title-bar-icon{font-size:12px;margin-right:4px}
+.win-btns{display:flex;gap:2px}
+.win-btn{width:16px;height:14px;background:var(--silver);border:1px outset var(--silver-light);display:flex;align-items:center;justify-content:center;font-size:9px;cursor:pointer;font-family:var(--sys-font)}
+.win-btn:active{border-style:inset}
+.win-content{padding:0}
+.win-menubar{background:var(--silver);border-bottom:1px solid var(--silver-dark);padding:2px 4px;display:flex;gap:0}
+.win-menubar span{padding:2px 8px;font-family:var(--sys-font);font-size:14px;cursor:pointer}
+.win-menubar span:hover{background:var(--title-bar);color:var(--white)}
+.win-body{background:var(--white);border:2px inset var(--silver-dark);margin:4px;overflow:hidden}
+
+/* MAIN WINDOW — Mashu */
+.main-window{top:20px;left:100px;width:calc(100vw - 140px);max-width:1100px}
+.main-window .win-body{display:grid;grid-template-columns:180px 1fr;min-height:500px}
+
+/* SIDEBAR */
+.win-sidebar{background:#F0F0F0;border-right:2px inset var(--silver-dark);padding:0}
+.sidebar-section{border-bottom:1px solid var(--silver-dark)}
+.sidebar-section-title{background:linear-gradient(to right,var(--title-bar),#1084D0);padding:2px 8px;font-family:var(--px-font);font-size:6px;color:var(--white);letter-spacing:0.5px}
+.sidebar-item{display:flex;align-items:center;gap:6px;padding:5px 10px;font-family:var(--sys-font);font-size:15px;cursor:pointer;border-bottom:1px solid rgba(0,0,0,0.05)}
+.sidebar-item:hover,.sidebar-item.active{background:var(--title-bar);color:var(--white)}
+.sidebar-item .ico{font-size:16px;flex-shrink:0}
+
+/* MAIN PANEL */
+.win-main{overflow-y:auto;max-height:500px}
+
+/* HERO PANEL */
+.panel-hero{background:linear-gradient(135deg,#1A0800 0%,#3B2A1A 60%,#1A0800 100%);padding:2rem;display:grid;grid-template-columns:1fr 200px;gap:1rem;align-items:center}
+.panel-hero .hero-text .eyebrow{font-family:var(--px-font);font-size:6px;color:var(--orange);letter-spacing:0.1em;margin-bottom:0.75rem;text-transform:uppercase}
+.panel-hero h1{font-family:var(--sys-font);font-size:clamp(1.8rem,4vw,3rem);color:var(--white);line-height:1.1;margin-bottom:0.75rem}
+.panel-hero h1 em{color:var(--orange);font-style:normal}
+.panel-hero p{font-family:var(--sys-font);font-size:15px;color:rgba(255,255,255,0.6);line-height:1.6;margin-bottom:1.25rem;max-width:380px}
+.panel-hero .hero-img{display:flex;align-items:center;justify-content:center}
+.panel-hero .hero-img img{max-height:160px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.4))}
+.hero-btns{display:flex;gap:6px;flex-wrap:wrap}
+.os-btn{font-family:var(--sys-font);font-size:16px;padding:4px 16px;background:var(--silver);border:2px outset var(--silver-light);cursor:pointer;color:var(--black);text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+.os-btn:active{border-style:inset}
+.os-btn.primary{background:var(--orange);color:var(--white)}
+.os-btn.primary:hover{background:#D46A1A}
+
+/* PRODUCT PANEL */
+.panel-products{padding:0.5rem}
+.panel-title{background:linear-gradient(to right,var(--title-bar),#1084D0);padding:3px 8px;font-family:var(--px-font);font-size:7px;color:var(--white);letter-spacing:0.5px;margin-bottom:0.5rem;display:flex;align-items:center;gap:6px}
+.panel-title::before{content:'📦';font-size:14px}
+.prods-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:4px;padding:0 0 0.5rem}
+.prod-card{background:var(--white);border:2px inset var(--silver-dark);padding:0.5rem;cursor:pointer;transition:background 0.1s}
+.prod-card:hover{background:#E8F0FF}
+.prod-card .thumb{width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:#F8F8F8;margin-bottom:0.4rem;overflow:hidden;border:1px solid var(--silver-dark)}
+.prod-card .thumb img{width:80%;height:80%;object-fit:contain}
+.prod-card h3{font-family:var(--sys-font);font-size:14px;color:var(--black);line-height:1.2;margin-bottom:2px}
+.prod-card .tag-chip{display:inline-block;background:var(--title-bar);color:var(--white);font-family:var(--sys-font);font-size:11px;padding:1px 6px}
+
+/* STATS PANEL */
+.panel-stats{border-top:2px inset var(--silver-dark);background:#F0F0F0;display:grid;grid-template-columns:repeat(4,1fr)}
+.stat-cell{padding:0.75rem 1rem;border-right:1px solid var(--silver-dark);text-align:center}
+.stat-cell:last-child{border-right:none}
+.stat-cell .n{font-family:var(--sys-font);font-size:clamp(1.5rem,2.5vw,2rem);color:var(--orange);line-height:1}
+.stat-cell .l{font-family:var(--sys-font);font-size:12px;color:var(--silver-dark);margin-top:2px}
+
+/* SECOND WINDOW — Newsletter */
+.nl-window{bottom:52px;right:20px;width:320px}
+.nl-window .win-body{padding:1rem}
+.nl-window h3{font-family:var(--sys-font);font-size:18px;margin-bottom:0.5rem}
+.nl-window p{font-family:var(--sys-font);font-size:14px;color:#555;margin-bottom:0.875rem;line-height:1.5}
+.nl-row{display:flex;border:2px inset var(--silver-dark)}
+.nl-row input{flex:1;padding:4px 8px;border:none;font-family:var(--sys-font);font-size:14px;outline:none;background:var(--white)}
+.nl-row button{background:var(--silver);border-left:2px outset var(--silver-light);padding:4px 10px;font-family:var(--sys-font);font-size:14px;cursor:pointer}
+.nl-row button:active{border-style:inset}
+
+/* STEPS WINDOW */
+.steps-window{top:20px;right:20px;width:260px}
+.steps-list{padding:0.5rem}
+.step-item{display:flex;align-items:flex-start;gap:8px;padding:0.5rem 4px;border-bottom:1px dotted var(--silver-dark)}
+.step-item:last-child{border-bottom:none}
+.step-ico{font-size:18px;flex-shrink:0}
+.step-info h4{font-family:var(--sys-font);font-size:14px;margin-bottom:2px}
+.step-info p{font-family:var(--sys-font);font-size:12px;color:#666;line-height:1.4}
+
+/* ABOUT WINDOW */
+.about-window{bottom:52px;left:100px;width:380px}
+.about-window .win-body{padding:1rem;display:grid;grid-template-columns:80px 1fr;gap:0.75rem;align-items:start}
+.about-logo{width:80px;height:80px;background:#F0F0F0;border:2px inset var(--silver-dark);display:flex;align-items:center;justify-content:center;font-size:2rem}
+.about-text h3{font-family:var(--sys-font);font-size:18px;margin-bottom:0.4rem}
+.about-text p{font-family:var(--sys-font);font-size:13px;color:#444;line-height:1.55}
+.about-text .promise-check{font-family:var(--sys-font);font-size:12px;color:var(--title-bar);margin-top:4px}
+
+/* CLOCK UPDATE */
+.clock-digit{font-variant-numeric:tabular-nums}
+
+/* BADGE */
+.style-badge{position:fixed;top:8px;right:20px;background:var(--title-bar);color:var(--white);padding:2px 8px;font-family:var(--px-font);font-size:6px;z-index:1001;letter-spacing:0.5px}
+
+@media(max-width:900px){
+  .main-window{left:8px;width:calc(100vw - 16px)}
+  .main-window .win-body{grid-template-columns:1fr}
+  .win-sidebar{display:none}
+  .steps-window{display:none}
+  .nl-window{right:8px;width:280px}
+  .about-window{left:8px;width:calc(100vw - 16px)}
+}
+</style>
+</head>
+<body>
+
+<div class="style-badge">Style: Poolsuite OS</div>
+
+<!-- Desktop Icons -->
+<div class="desktop-icons">
+  <div class="d-icon">
+    <span class="ico">🐾</span>
+    <span class="lbl">Mashu</span>
+  </div>
+  <div class="d-icon">
+    <span class="ico">📦</span>
+    <span class="lbl">Catálogo</span>
+  </div>
+  <div class="d-icon">
+    <span class="ico">💬</span>
+    <span class="lbl">WhatsApp</span>
+  </div>
+  <div class="d-icon">
+    <span class="ico">📰</span>
+    <span class="lbl">Novedades</span>
+  </div>
+</div>
+
+<!-- MAIN WINDOW -->
+<div class="window main-window" style="top:20px;left:100px">
+  <div class="title-bar">
+    <span class="title-bar-icon">🐾</span>
+    <span class="title-bar-text">Mashu Petfood — Nutrición Natural v2.6</span>
+    <div class="win-btns">
+      <span class="win-btn">_</span>
+      <span class="win-btn">□</span>
+      <span class="win-btn">✕</span>
+    </div>
+  </div>
+  <div class="win-menubar">
+    <span>Archivo</span>
+    <span>Ver</span>
+    <span>Catálogo</span>
+    <span>Ayuda</span>
+  </div>
+  <div class="win-content">
+    <div class="win-body">
+
+      <!-- Sidebar -->
+      <div class="win-sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">NAVEGACIÓN</div>
+          <div class="sidebar-item active"><span class="ico">🏠</span> Inicio</div>
+          <div class="sidebar-item"><span class="ico">📦</span> Catálogo</div>
+          <div class="sidebar-item"><span class="ico">📰</span> Novedades</div>
+          <div class="sidebar-item"><span class="ico">📞</span> Contacto</div>
+        </div>
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">PRODUCTOS</div>
+          <div class="sidebar-item"><span class="ico">🍗</span> Caldos</div>
+          <div class="sidebar-item"><span class="ico">🥩</span> Carnes</div>
+          <div class="sidebar-item"><span class="ico">📦</span> Packs</div>
+          <div class="sidebar-item"><span class="ico">🐱</span> Para gatos</div>
+        </div>
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">INFORMACIÓN</div>
+          <div class="sidebar-item"><span class="ico">ℹ️</span> Sobre Mashu</div>
+          <div class="sidebar-item"><span class="ico">🚚</span> Envíos</div>
+          <div class="sidebar-item"><span class="ico">❓</span> FAQ</div>
+        </div>
+      </div>
+
+      <!-- Main Panel -->
+      <div class="win-main">
+
+        <!-- Hero -->
+        <div class="panel-hero">
+          <div class="hero-text">
+            <p class="eyebrow">Nutrición natural · Argentina</p>
+            <h1>El alimento que tu<br><em>mascota se merece.</em></h1>
+            <p>Recetas sin conservantes artificiales. Proteína real como primer ingrediente. Formulado por nutricionistas veterinarios.</p>
+            <div class="hero-btns">
+              <a href="#" class="os-btn primary">📦 Ver catálogo</a>
+              <a href="#" class="os-btn">💬 Cotizar</a>
+            </div>
+          </div>
+          <div class="hero-img">
+            <img src="/products/Pack Gallinero.png" alt="Pack" onerror="this.style.opacity='0.3'">
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="panel-stats">
+          <div class="stat-cell"><div class="n">2.400+</div><div class="l">Mascotas</div></div>
+          <div class="stat-cell"><div class="n">97%</div><div class="l">Satisfechos</div></div>
+          <div class="stat-cell"><div class="n">24hs</div><div class="l">Respuesta</div></div>
+          <div class="stat-cell"><div class="n">★ 4.9</div><div class="l">Rating</div></div>
+        </div>
+
+        <!-- Products -->
+        <div style="padding:0.5rem">
+          <div class="panel-title">Productos destacados</div>
+          <div class="prods-grid">
+            <div class="prod-card">
+              <div class="thumb"><img src="/products/Caldo Pollo.png" alt="" onerror="this.parentNode.textContent='🍗'"></div>
+              <h3>Caldo de Pollo</h3>
+              <span class="tag-chip">Caldos</span>
+            </div>
+            <div class="prod-card">
+              <div class="thumb"><img src="/products/Caldo Res.png" alt="" onerror="this.parentNode.textContent='🥩'"></div>
+              <h3>Caldo de Res</h3>
+              <span class="tag-chip">Caldos</span>
+            </div>
+            <div class="prod-card">
+              <div class="thumb"><img src="/products/Carne Vaquera.png" alt="" onerror="this.parentNode.textContent='🐄'"></div>
+              <h3>Carne Vaquera</h3>
+              <span class="tag-chip">Carnes</span>
+            </div>
+            <div class="prod-card">
+              <div class="thumb"><img src="/products/Pollo Granjero.png" alt="" onerror="this.parentNode.textContent='🍗'"></div>
+              <h3>Pollo Granjero</h3>
+              <span class="tag-chip">Aves</span>
+            </div>
+            <div class="prod-card">
+              <div class="thumb"><img src="/products/Pollo Ranchero.png" alt="" onerror="this.parentNode.textContent='🍗'"></div>
+              <h3>Pollo Ranchero</h3>
+              <span class="tag-chip">Aves</span>
+            </div>
+            <div class="prod-card">
+              <div class="thumb"><img src="/products/Pack Gallinero.png" alt="" onerror="this.parentNode.textContent='📦'"></div>
+              <h3>Pack Gallinero</h3>
+              <span class="tag-chip">Packs</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STEPS WINDOW -->
+<div class="window steps-window">
+  <div class="title-bar">
+    <span class="title-bar-icon">📋</span>
+    <span class="title-bar-text">Cómo comprar</span>
+    <div class="win-btns">
+      <span class="win-btn">_</span>
+      <span class="win-btn">□</span>
+      <span class="win-btn">✕</span>
+    </div>
+  </div>
+  <div class="win-content">
+    <div class="win-body" style="padding:0">
+      <div class="steps-list">
+        <div class="step-item">
+          <span class="step-ico">📦</span>
+          <div class="step-info">
+            <h4>01. Elegí productos</h4>
+            <p>Armá tu lista desde el catálogo</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <span class="step-ico">💬</span>
+          <div class="step-info">
+            <h4>02. Cotizá</h4>
+            <p>Un clic manda la lista por WhatsApp</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <span class="step-ico">🚚</span>
+          <div class="step-info">
+            <h4>03. Recibís</h4>
+            <p>Coordinamos la entrega. ¡Listo!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT WINDOW -->
+<div class="window about-window">
+  <div class="title-bar">
+    <span class="title-bar-icon">ℹ️</span>
+    <span class="title-bar-text">Sobre Mashu Petfood</span>
+    <div class="win-btns">
+      <span class="win-btn">_</span>
+      <span class="win-btn">□</span>
+      <span class="win-btn">✕</span>
+    </div>
+  </div>
+  <div class="win-content">
+    <div class="win-body">
+      <div class="about-logo">🐾</div>
+      <div class="about-text">
+        <h3>Mashu Petfood</h3>
+        <p>Nutrición natural para mascotas. Sin conservantes artificiales. Formulado por nutricionistas veterinarios especializados.</p>
+        <p class="promise-check">✓ Proteína real como primer ingrediente</p>
+        <p class="promise-check">✓ Sin harinas de baja calidad</p>
+        <p class="promise-check">✓ Respuesta en menos de 24 horas</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NEWSLETTER WINDOW -->
+<div class="window nl-window">
+  <div class="title-bar">
+    <span class="title-bar-icon">✉️</span>
+    <span class="title-bar-text">Suscribirse al Newsletter</span>
+    <div class="win-btns">
+      <span class="win-btn">_</span>
+      <span class="win-btn">□</span>
+      <span class="win-btn">✕</span>
+    </div>
+  </div>
+  <div class="win-content">
+    <div class="win-body">
+      <div class="nl-window" style="all:unset">
+        <div style="padding:1rem;font-family:var(--sys-font)">
+          <h3 style="font-size:18px;margin-bottom:0.4rem">Tips & Novedades</h3>
+          <p style="font-size:13px;color:#555;line-height:1.5;margin-bottom:0.875rem">Consejos de nutrición y ofertas directo a tu email. Sin spam.</p>
+          <div class="nl-row">
+            <input type="email" placeholder="tu@email.com">
+            <button>OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TASKBAR -->
+<div class="taskbar">
+  <div class="start-btn"><span class="start-icon">🐾</span> MASHU</div>
+  <div class="taskbar-sep"></div>
+  <div class="task-btn active">🏠 Mashu Petfood</div>
+  <div class="task-btn">📦 Catálogo</div>
+  <div class="task-btn">💬 WhatsApp</div>
+  <div class="taskbar-clock" id="clock">00:00</div>
+</div>
+
+<script>
+function updateClock(){
+  const now=new Date();
+  const h=String(now.getHours()).padStart(2,'0');
+  const m=String(now.getMinutes()).padStart(2,'0');
+  document.getElementById('clock').textContent=h+':'+m;
+}
+updateClock();
+setInterval(updateClock,1000);
+
+// Simple window drag
+document.querySelectorAll('.window').forEach(win=>{
+  const bar=win.querySelector('.title-bar');
+  if(!bar)return;
+  let dragging=false,ox=0,oy=0;
+  bar.addEventListener('mousedown',e=>{
+    dragging=true;
+    ox=e.clientX-win.offsetLeft;
+    oy=e.clientY-win.offsetTop;
+    win.style.zIndex=200;
+  });
+  document.addEventListener('mousemove',e=>{
+    if(!dragging)return;
+    win.style.left=(e.clientX-ox)+'px';
+    win.style.top=(e.clientY-oy)+'px';
+  });
+  document.addEventListener('mouseup',()=>dragging=false);
+});
+</script>
+</body>
+</html>

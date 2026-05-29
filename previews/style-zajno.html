@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mashu — Flavor Showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,600;1,300;1,500&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:      #0A0906;
+    --surface: #111009;
+    --border:  rgba(255,255,255,0.06);
+    --cream:   #F5F0E8;
+    --muted:   rgba(245,240,232,0.35);
+    --accent:  #E07B2B;
+    --warm:    #C4703A;
+
+    /* Flavor colors */
+    --vacuno:   #8B4513;
+    --pollo:    #D4A017;
+    --salmon:   #E8735A;
+    --cordero:  #7C8C6E;
+  }
+
+  html, body { height: 100%; overflow: hidden; }
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--bg);
+    color: var(--cream);
+    -webkit-font-smoothing: antialiased;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    position: fixed; z-index: 9999; pointer-events: none;
+    mix-blend-mode: difference;
+  }
+  .cursor-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--cream);
+    position: fixed; transform: translate(-50%, -50%);
+    transition: transform 0.1s;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid rgba(245,240,232,0.4);
+    position: fixed; transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s, transform 0.15s ease-out, border-color 0.3s;
+  }
+  body.hovered .cursor-ring {
+    width: 64px; height: 64px;
+    border-color: var(--accent);
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 72px;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--cream); text-decoration: none;
+  }
+  .nav-right { display: flex; align-items: center; gap: 32px; }
+  .nav-link {
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-link:hover { color: var(--cream); }
+
+  /* MAIN SHOWCASE */
+  .showcase {
+    position: fixed; inset: 0;
+    display: grid; grid-template-columns: 1fr 1fr;
+  }
+
+  /* LEFT — product stage */
+  .stage {
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    border-right: 1px solid var(--border);
+  }
+  .stage-bg {
+    position: absolute; inset: 0;
+    transition: background 0.8s ease;
+    opacity: 0.07;
+  }
+  .product-display {
+    position: relative; z-index: 2;
+    width: 340px; height: 340px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  /* 3D floating product blob */
+  .product-blob {
+    position: absolute;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform: scale(0.7) translateY(30px);
+    opacity: 0;
+    will-change: transform, opacity;
+    animation: float 6s ease-in-out infinite;
+  }
+  .product-blob.active {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  @keyframes float {
+    0%, 100% { transform: scale(1) translateY(0px); }
+    50% { transform: scale(1) translateY(-16px); }
+  }
+  .product-blob-vacuno  { background: radial-gradient(circle at 40% 35%, rgba(139,69,19,0.3), rgba(139,69,19,0.05)); border: 1px solid rgba(139,69,19,0.3); }
+  .product-blob-pollo   { background: radial-gradient(circle at 40% 35%, rgba(212,160,23,0.3), rgba(212,160,23,0.05)); border: 1px solid rgba(212,160,23,0.3); }
+  .product-blob-salmon  { background: radial-gradient(circle at 40% 35%, rgba(232,115,90,0.3), rgba(232,115,90,0.05)); border: 1px solid rgba(232,115,90,0.3); }
+  .product-blob-cordero { background: radial-gradient(circle at 40% 35%, rgba(124,140,110,0.3), rgba(124,140,110,0.05)); border: 1px solid rgba(124,140,110,0.3); }
+
+  .product-blob-inner {
+    text-align: center;
+  }
+  .product-blob-letter {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 6rem; font-weight: 300; font-style: italic;
+    display: block; line-height: 1;
+    transition: color 0.5s;
+  }
+  .product-blob-tag {
+    font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted);
+    margin-top: 8px; display: block;
+  }
+
+  /* orbit rings */
+  .orbit {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.04);
+    animation: orbit-rotate 20s linear infinite;
+  }
+  .orbit-1 { width: 360px; height: 360px; }
+  .orbit-2 { width: 440px; height: 440px; animation-duration: 30s; animation-direction: reverse; border-style: dashed; }
+  .orbit-3 { width: 520px; height: 520px; animation-duration: 45s; }
+  @keyframes orbit-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .orbit-dot {
+    position: absolute; top: -3px; left: 50%; transform: translateX(-50%);
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); opacity: 0.5;
+  }
+
+  /* Stage bottom info */
+  .stage-info {
+    position: absolute; bottom: 40px; left: 48px; right: 48px;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    z-index: 5;
+  }
+  .stage-product-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem; font-weight: 300; font-style: italic;
+    color: var(--cream); opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+  .stage-product-name.visible { opacity: 1; transform: translateY(0); }
+  .stage-product-detail {
+    text-align: right; opacity: 0; transform: translateY(10px);
+    transition: opacity 0.5s 0.1s, transform 0.5s 0.1s;
+  }
+  .stage-product-detail.visible { opacity: 1; transform: translateY(0); }
+  .stage-product-price {
+    font-size: 1.2rem; font-weight: 500; color: var(--cream);
+  }
+  .stage-product-size {
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); margin-top: 2px;
+  }
+
+  /* RIGHT — menu list */
+  .menu {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 72px 64px 40px;
+    position: relative;
+  }
+  .menu-eyebrow {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 48px;
+  }
+  .flavor-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 64px; }
+  .flavor-item {
+    padding: 28px 0;
+    border-top: 1px solid var(--border);
+    cursor: none;
+    overflow: hidden;
+    position: relative;
+    transition: border-color 0.3s;
+  }
+  .flavor-item:last-child { border-bottom: 1px solid var(--border); }
+  .flavor-item.active { border-color: rgba(255,255,255,0.15); }
+  .flavor-item-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    transform: translateX(0); transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .flavor-item:hover .flavor-item-inner { transform: translateX(12px); }
+  .flavor-num {
+    font-size: 0.65rem; letter-spacing: 0.15em; color: var(--muted);
+    flex-shrink: 0; width: 32px; font-weight: 500;
+    transition: color 0.3s;
+  }
+  .flavor-item.active .flavor-num { color: var(--accent); }
+  .flavor-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem; font-weight: 300;
+    color: rgba(245,240,232,0.25);
+    transition: color 0.4s, font-size 0.3s;
+    line-height: 1; flex: 1; padding: 0 24px;
+  }
+  .flavor-item.active .flavor-name,
+  .flavor-item:hover .flavor-name { color: var(--cream); }
+  .flavor-tag {
+    font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted); flex-shrink: 0;
+    padding: 4px 10px; border: 1px solid var(--border); border-radius: 2px;
+    transition: border-color 0.3s, color 0.3s;
+  }
+  .flavor-item.active .flavor-tag { border-color: var(--accent); color: var(--accent); }
+
+  /* Nutrients bar */
+  .flavor-nutrients {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.5s ease;
+    padding-left: 56px;
+  }
+  .flavor-item.active .flavor-nutrients { max-height: 80px; }
+  .nutrients-inner { padding: 16px 0 4px; display: flex; gap: 32px; }
+  .nutrient { }
+  .nutrient-val {
+    font-size: 1.1rem; font-weight: 500; color: var(--cream); display: block;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .nutrient-label {
+    font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* CTA area */
+  .menu-cta {
+    display: flex; align-items: center; gap: 20px;
+  }
+  .btn-orange {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 32px;
+    background: var(--accent); color: var(--cream);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    text-decoration: none; transition: background 0.2s, transform 0.2s;
+    border: none; cursor: none;
+  }
+  .btn-orange:hover { background: var(--warm); transform: translateY(-2px); }
+  .btn-ghost {
+    display: inline-block;
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted); text-decoration: none;
+    border-bottom: 1px solid var(--border); padding-bottom: 2px;
+    transition: color 0.2s;
+    cursor: none;
+  }
+  .btn-ghost:hover { color: var(--cream); }
+
+  /* Sizes selector */
+  .sizes-row {
+    display: flex; gap: 8px; margin-bottom: 24px;
+  }
+  .size-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--border); background: transparent;
+    color: var(--muted); font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em;
+    cursor: none; transition: border-color 0.2s, color 0.2s, background 0.2s;
+  }
+  .size-btn.active, .size-btn:hover {
+    border-color: var(--accent); color: var(--cream);
+    background: rgba(224,123,43,0.08);
+  }
+
+  /* Bottom bar */
+  .bottom-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 52px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+  .bottom-stat { display: flex; align-items: center; gap: 8px; }
+  .bottom-stat-dot { width: 6px; height: 6px; border-radius: 50%; background: #34D399; }
+  .bottom-stat span { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; }
+  .bottom-stat span strong { color: var(--cream); font-weight: 500; }
+
+  /* Noise overlay */
+  .noise {
+    position: fixed; inset: 0; z-index: 200; pointer-events: none;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+  }
+</style>
+</head>
+<body>
+
+<div class="noise"></div>
+
+<!-- Custom cursor -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Mashu</a>
+  <div class="nav-right">
+    <a href="#" class="nav-link">Catálogo</a>
+    <a href="#" class="nav-link">Nosotros</a>
+    <a href="#" class="nav-link" style="color: var(--accent); border-bottom: 1px solid var(--accent); padding-bottom: 1px;">Pedir →</a>
+  </div>
+</nav>
+
+<!-- SHOWCASE -->
+<div class="showcase">
+
+  <!-- LEFT: STAGE -->
+  <div class="stage">
+    <div class="stage-bg" id="stageBg"></div>
+
+    <!-- Orbits -->
+    <div class="orbit orbit-3"><div class="orbit-dot"></div></div>
+    <div class="orbit orbit-2"></div>
+    <div class="orbit orbit-1"><div class="orbit-dot" style="top: auto; bottom: -3px; animation: none;"></div></div>
+
+    <!-- Product blobs -->
+    <div class="product-display">
+      <div class="product-blob product-blob-vacuno active" id="blob-vacuno">
+        <div class="product-blob-inner">
+          <span class="product-blob-letter" style="color: #C4703A;">V</span>
+          <span class="product-blob-tag">Vacuno & Batata</span>
+        </div>
+      </div>
+      <div class="product-blob product-blob-pollo" id="blob-pollo">
+        <div class="product-blob-inner">
+          <span class="product-blob-letter" style="color: #D4A017;">P</span>
+          <span class="product-blob-tag">Pollo & Zanahoria</span>
+        </div>
+      </div>
+      <div class="product-blob product-blob-salmon" id="blob-salmon">
+        <div class="product-blob-inner">
+          <span class="product-blob-letter" style="color: #E8735A;">S</span>
+          <span class="product-blob-tag">Salmón & Espinaca</span>
+        </div>
+      </div>
+      <div class="product-blob product-blob-cordero" id="blob-cordero">
+        <div class="product-blob-inner">
+          <span class="product-blob-letter" style="color: #9CAE8E;">C</span>
+          <span class="product-blob-tag">Cordero & Quinoa</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage bottom info -->
+    <div class="stage-info">
+      <div class="stage-product-name visible" id="stageName">Vacuno & Batata</div>
+      <div class="stage-product-detail visible" id="stageDetail">
+        <div class="stage-product-price">desde $4.200</div>
+        <div class="stage-product-size">500g / 1kg / 2kg</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: MENU -->
+  <div class="menu">
+    <p class="menu-eyebrow">Nuestras recetas</p>
+
+    <div class="flavor-list">
+
+      <div class="flavor-item active" data-id="vacuno" data-name="Vacuno &amp; Batata" data-price="desde $4.200" data-size="500g / 1kg / 2kg" data-protein="62%" data-fat="18%" data-fiber="4%">
+        <div class="flavor-item-inner">
+          <span class="flavor-num">01</span>
+          <span class="flavor-name">Vacuno & Batata</span>
+          <span class="flavor-tag">Bestseller</span>
+        </div>
+        <div class="flavor-nutrients">
+          <div class="nutrients-inner">
+            <div class="nutrient"><span class="nutrient-val">62%</span><span class="nutrient-label">Proteína</span></div>
+            <div class="nutrient"><span class="nutrient-val">18%</span><span class="nutrient-label">Grasa</span></div>
+            <div class="nutrient"><span class="nutrient-val">4%</span><span class="nutrient-label">Fibra</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flavor-item" data-id="pollo" data-name="Pollo & Zanahoria" data-price="desde $3.900" data-size="500g / 1kg / 2kg" data-protein="58%" data-fat="15%" data-fiber="5%">
+        <div class="flavor-item-inner">
+          <span class="flavor-num">02</span>
+          <span class="flavor-name">Pollo & Zanahoria</span>
+          <span class="flavor-tag">Grain-free</span>
+        </div>
+        <div class="flavor-nutrients">
+          <div class="nutrients-inner">
+            <div class="nutrient"><span class="nutrient-val">58%</span><span class="nutrient-label">Proteína</span></div>
+            <div class="nutrient"><span class="nutrient-val">15%</span><span class="nutrient-label">Grasa</span></div>
+            <div class="nutrient"><span class="nutrient-val">5%</span><span class="nutrient-label">Fibra</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flavor-item" data-id="salmon" data-name="Salmón & Espinaca" data-price="desde $5.500" data-size="500g / 1kg" data-protein="55%" data-fat="22%" data-fiber="3%">
+        <div class="flavor-item-inner">
+          <span class="flavor-num">03</span>
+          <span class="flavor-name">Salmón & Espinaca</span>
+          <span class="flavor-tag">Omega-3</span>
+        </div>
+        <div class="flavor-nutrients">
+          <div class="nutrients-inner">
+            <div class="nutrient"><span class="nutrient-val">55%</span><span class="nutrient-label">Proteína</span></div>
+            <div class="nutrient"><span class="nutrient-val">22%</span><span class="nutrient-label">Grasa</span></div>
+            <div class="nutrient"><span class="nutrient-val">3%</span><span class="nutrient-label">Fibra</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flavor-item" data-id="cordero" data-name="Cordero & Quinoa" data-price="desde $5.200" data-size="500g / 1kg" data-protein="60%" data-fat="16%" data-fiber="6%">
+        <div class="flavor-item-inner">
+          <span class="flavor-num">04</span>
+          <span class="flavor-name">Cordero & Quinoa</span>
+          <span class="flavor-tag">Nuevo</span>
+        </div>
+        <div class="flavor-nutrients">
+          <div class="nutrients-inner">
+            <div class="nutrient"><span class="nutrient-val">60%</span><span class="nutrient-label">Proteína</span></div>
+            <div class="nutrient"><span class="nutrient-val">16%</span><span class="nutrient-label">Grasa</span></div>
+            <div class="nutrient"><span class="nutrient-val">6%</span><span class="nutrient-label">Fibra</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Size selector -->
+    <div class="sizes-row" id="sizesRow">
+      <button class="size-btn active">500g</button>
+      <button class="size-btn">1kg</button>
+      <button class="size-btn">2kg</button>
+    </div>
+
+    <!-- CTA -->
+    <div class="menu-cta">
+      <button class="btn-orange">
+        Agregar al carrito
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <a href="#" class="btn-ghost">Ver todos</a>
+    </div>
+  </div>
+</div>
+
+<!-- BOTTOM BAR -->
+<div class="bottom-bar">
+  <div class="bottom-stat">
+    <div class="bottom-stat-dot"></div>
+    <span>Entrega disponible · <strong>CABA y GBA</strong></span>
+  </div>
+  <div class="bottom-stat">
+    <span><strong>2.400+</strong> perros felices</span>
+  </div>
+  <div class="bottom-stat">
+    <span>Formulado por <strong>nutricionistas veterinarios</strong></span>
+  </div>
+</div>
+
+<script>
+// Cursor
+const dot = document.getElementById('cursorDot');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; dot.style.left = mx + 'px'; dot.style.top = my + 'px'; });
+function animRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+document.querySelectorAll('a, button, .flavor-item, .size-btn').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('hovered'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('hovered'));
+});
+
+// Flavor colors
+const flavorColors = {
+  vacuno:  'rgba(139,69,19,1)',
+  pollo:   'rgba(212,160,23,1)',
+  salmon:  'rgba(232,115,90,1)',
+  cordero: 'rgba(124,140,110,1)',
+};
+
+const items = document.querySelectorAll('.flavor-item');
+const stageBg = document.getElementById('stageBg');
+const stageName = document.getElementById('stageName');
+const stageDetail = document.getElementById('stageDetail');
+
+function activateFlavor(el) {
+  const id = el.dataset.id;
+
+  // Update active item
+  items.forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+
+  // Update blobs
+  document.querySelectorAll('.product-blob').forEach(b => b.classList.remove('active'));
+  document.getElementById('blob-' + id).classList.add('active');
+
+  // Update bg
+  stageBg.style.background = flavorColors[id];
+
+  // Update info
+  stageName.classList.remove('visible');
+  stageDetail.classList.remove('visible');
+  setTimeout(() => {
+    stageName.textContent = el.dataset.name;
+    stageDetail.querySelector('.stage-product-price').textContent = el.dataset.price;
+    stageDetail.querySelector('.stage-product-size').textContent = el.dataset.size;
+    stageName.classList.add('visible');
+    stageDetail.classList.add('visible');
+  }, 150);
+}
+
+items.forEach(item => {
+  item.addEventListener('mouseenter', () => activateFlavor(item));
+  item.addEventListener('click', () => activateFlavor(item));
+});
+
+// Size buttons
+document.querySelectorAll('.size-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

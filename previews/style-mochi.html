@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mashu × Japanese Minimal</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;600&family=Noto+Serif+JP:wght@700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--black:#000;--white:#fff;--off:#F8F8F8;--orange:#E07B2B;--muted:#888;--border:#DEDEDE}
+html{font-size:15px}
+body{font-family:'Noto Sans JP',system-ui,sans-serif;background:var(--white);color:var(--black);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* ANNOUNCEMENT */
+.announce{background:var(--black);color:var(--white);text-align:center;padding:0.5rem;font-size:0.72rem;letter-spacing:0.18em;overflow:hidden;white-space:nowrap;display:flex;gap:4rem;animation:ticker 25s linear infinite}
+.announce span{flex-shrink:0;letter-spacing:0.18em}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* NAV */
+nav{border-bottom:1px solid var(--black);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 2rem;height:56px}
+.nav-left{display:flex;gap:2rem}
+.nav-logo{font-family:'Noto Serif JP',serif;font-size:1.35rem;font-weight:700;letter-spacing:0.04em;text-decoration:none;color:var(--black);grid-column:2;justify-self:center}
+.nav-right{display:flex;gap:2rem;justify-content:flex-end}
+nav a:not(.nav-logo){font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;text-decoration:none;color:var(--black);opacity:0.5;transition:opacity 0.15s}
+nav a:not(.nav-logo):hover{opacity:1}
+
+/* HERO */
+.hero{padding:6vw 2rem 5vw;border-bottom:1px solid var(--black);display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;min-height:70vh}
+.hero-text .eyebrow{font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1.5rem;display:flex;align-items:center;gap:0.75rem}
+.hero-text .eyebrow::before{content:'';display:block;width:32px;height:1px;background:var(--black)}
+.hero h1{font-family:'Noto Serif JP',serif;font-size:clamp(2.5rem,5vw,4.5rem);font-weight:700;line-height:1.1;letter-spacing:-0.02em;margin-bottom:2rem}
+.hero h1 em{color:var(--orange);font-style:normal}
+.hero-body{font-size:0.9rem;color:var(--muted);line-height:1.9;max-width:380px;margin-bottom:2.5rem}
+.hero-actions{display:flex;gap:0;border:1px solid var(--black)}
+.hero-actions a{display:flex;align-items:center;padding:0.875rem 1.75rem;font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;font-weight:500;text-decoration:none;color:var(--black);transition:background 0.15s,color 0.15s}
+.hero-actions a:first-child{background:var(--black);color:var(--white)}
+.hero-actions a:first-child:hover{background:#333}
+.hero-actions a:last-child{border-left:1px solid var(--black)}
+.hero-actions a:last-child:hover{background:var(--off)}
+.hero-img{position:relative;aspect-ratio:1;background:var(--off);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-img img{width:80%;height:80%;object-fit:contain;mix-blend-mode:multiply}
+.hero-img .tag{position:absolute;top:1.5rem;right:1.5rem;background:var(--orange);color:var(--white);font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;padding:0.3rem 0.6rem;font-weight:600}
+
+/* TICKER */
+.ticker{border-top:1px solid var(--black);border-bottom:1px solid var(--black);padding:1rem 0;overflow:hidden;display:flex;gap:4rem}
+.ticker-inner{display:flex;gap:4rem;animation:ticker 20s linear infinite;white-space:nowrap}
+.ticker-item{font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;flex-shrink:0;display:flex;align-items:center;gap:0.5rem}
+.ticker-dot{width:4px;height:4px;border-radius:50%;background:var(--orange);flex-shrink:0}
+
+/* PRODUCTS */
+.products{padding:5rem 2rem;border-bottom:1px solid var(--black)}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;padding-bottom:1.5rem;border-bottom:1px solid var(--black)}
+.section-head h2{font-family:'Noto Serif JP',serif;font-size:clamp(1.5rem,3vw,2.25rem);font-weight:700;letter-spacing:-0.01em}
+.section-head a{font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;text-decoration:none;color:var(--black);display:flex;align-items:center;gap:0.4rem;opacity:0.5;transition:opacity 0.15s}
+.section-head a:hover{opacity:1}
+.products-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+.product{border-right:1px solid var(--black);padding-bottom:2rem;transition:background 0.15s}
+.product:last-child{border-right:none}
+.product:hover{background:var(--off)}
+.product .thumb{aspect-ratio:1;background:var(--off);display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--black);position:relative;overflow:hidden}
+.product .thumb img{width:70%;height:70%;object-fit:contain;mix-blend-mode:multiply;transition:transform 0.3s}
+.product:hover .thumb img{transform:scale(1.04)}
+.product .info{padding:1.25rem 1.25rem 0}
+.product .cat{font-size:0.62rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:0.375rem}
+.product h3{font-size:0.9rem;font-weight:500;margin-bottom:0.25rem;letter-spacing:-0.01em}
+.product .desc{font-size:0.75rem;color:var(--muted);line-height:1.6;margin-bottom:0.75rem}
+.product .add{font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--orange);font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:0.3rem}
+
+/* STATEMENT */
+.statement{padding:6vw 2rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;border-bottom:1px solid var(--black)}
+.statement-text h2{font-family:'Noto Serif JP',serif;font-size:clamp(2rem,4vw,3.5rem);font-weight:700;line-height:1.1;letter-spacing:-0.02em;margin-bottom:2rem}
+.statement-text p{font-size:0.875rem;color:var(--muted);line-height:1.9;margin-bottom:1.5rem}
+.statement-link{font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;text-decoration:none;color:var(--black);display:inline-flex;align-items:center;gap:0.5rem;border-bottom:1px solid var(--black);padding-bottom:2px}
+.statement-img{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.statement-img div{aspect-ratio:1;background:var(--off);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.statement-img div img{width:75%;height:75%;object-fit:contain;mix-blend-mode:multiply}
+.statement-img div:first-child{grid-column:span 2;aspect-ratio:2/1}
+
+/* NUMBERS */
+.numbers{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--black)}
+.number-item{padding:3rem 2rem;border-right:1px solid var(--black)}
+.number-item:last-child{border-right:none}
+.number-item .n{font-family:'IBM Plex Mono',monospace;font-size:clamp(2rem,3.5vw,3rem);font-weight:600;color:var(--orange);letter-spacing:-0.03em;margin-bottom:0.5rem}
+.number-item .l{font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted)}
+
+/* STEPS */
+.steps{padding:5rem 2rem;border-bottom:1px solid var(--black)}
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);margin-top:3rem}
+.step{padding:2rem;border-right:1px solid var(--black)}
+.step:last-child{border-right:none}
+.step .num{font-family:'IBM Plex Mono',monospace;font-size:3rem;color:var(--border);font-weight:600;line-height:1;margin-bottom:1.5rem}
+.step .icon{font-size:1.25rem;margin-bottom:1rem}
+.step h3{font-size:0.875rem;font-weight:700;margin-bottom:0.5rem;letter-spacing:-0.01em}
+.step p{font-size:0.78rem;color:var(--muted);line-height:1.75}
+
+/* PROMISE */
+.promise{background:var(--black);padding:5rem 2rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.promise h2{font-family:'Noto Serif JP',serif;font-size:clamp(1.75rem,3vw,2.75rem);font-weight:700;color:var(--white);line-height:1.15;margin-bottom:2rem}
+.promise h2 em{color:var(--orange);font-style:normal}
+.promise-checks{display:flex;flex-direction:column;gap:1.25rem}
+.promise-check{display:flex;gap:1rem;align-items:flex-start}
+.check-icon{width:20px;height:20px;border:1px solid var(--orange);color:var(--orange);font-size:0.7rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.check-text{font-size:0.85rem;color:rgba(255,255,255,0.6);line-height:1.7}
+.promise-img{display:flex;align-items:center;justify-content:center}
+.promise-img img{max-width:360px;width:100%;filter:brightness(0.9)}
+
+/* NEWSLETTER */
+.newsletter{padding:5rem 2rem;border-top:1px solid var(--black);border-bottom:1px solid var(--black);display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.newsletter h2{font-family:'Noto Serif JP',serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:700;margin-bottom:0.75rem}
+.newsletter p{font-size:0.82rem;color:var(--muted);line-height:1.7}
+.nl-form{display:flex;border:1px solid var(--black)}
+.nl-form input{flex:1;padding:0.875rem 1rem;border:none;font-size:0.82rem;font-family:'Noto Sans JP',sans-serif;outline:none;background:var(--off)}
+.nl-form button{background:var(--black);color:var(--white);border:none;padding:0.875rem 1.5rem;font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;font-family:'Noto Sans JP',sans-serif;font-weight:500;white-space:nowrap;transition:background 0.15s}
+.nl-form button:hover{background:#333}
+
+/* FOOTER */
+footer{padding:3rem 2rem;border-top:1px solid var(--black);display:grid;grid-template-columns:1fr auto;align-items:center}
+.footer-brand{font-family:'Noto Serif JP',serif;font-size:1.1rem;font-weight:700;letter-spacing:0.02em}
+.footer-brand small{display:block;font-family:'Noto Sans JP',sans-serif;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:0.2rem;font-weight:400}
+.footer-links{display:flex;gap:2rem}
+.footer-links a{font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;color:var(--muted);transition:color 0.15s}
+.footer-links a:hover{color:var(--black)}
+
+/* BADGE */
+.style-badge{position:fixed;top:16px;right:16px;background:var(--black);color:var(--white);padding:0.35rem 0.875rem;font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;z-index:999;font-family:'IBM Plex Mono',monospace}
+
+@media(max-width:1024px){.products-grid{grid-template-columns:repeat(2,1fr)}.products-grid .product:nth-child(2n){border-right:none}.products-grid .product:nth-child(1),.products-grid .product:nth-child(2){border-bottom:1px solid var(--black)}}
+@media(max-width:768px){.hero,.statement,.promise,.newsletter{grid-template-columns:1fr}.numbers{grid-template-columns:repeat(2,1fr)}.steps-grid{grid-template-columns:1fr}.step{border-right:none;border-bottom:1px solid var(--black)}.nav-left,.nav-right{display:none}}
+</style>
+</head>
+<body>
+<div class="style-badge">Style: Shoppu / Mochi</div>
+
+<div class="announce">
+  <span>送料無料 — Sin cargo de envío en pedidos +$5000</span>
+  <span>天然食材 — Ingredientes 100% naturales</span>
+  <span>獣医師監修 — Supervisado por veterinarios</span>
+  <span>送料無料 — Sin cargo de envío en pedidos +$5000</span>
+  <span>天然食材 — Ingredientes 100% naturales</span>
+  <span>獣医師監修 — Supervisado por veterinarios</span>
+</div>
+
+<nav>
+  <div class="nav-left">
+    <a href="#">Catálogo</a>
+    <a href="#">Novedades</a>
+    <a href="#">Sobre Mashu</a>
+  </div>
+  <a href="#" class="nav-logo">Mashu</a>
+  <div class="nav-right">
+    <a href="#">Contacto</a>
+    <a href="#">WhatsApp →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-text">
+    <p class="eyebrow">Nutrición natural · Argentina</p>
+    <h1>El alimento que<br>tu mascota<br><em>se merece.</em></h1>
+    <p class="hero-body">Recetas sin conservantes artificiales. Proteína real como primer ingrediente. Formulado por nutricionistas veterinarios especializados.</p>
+    <div class="hero-actions">
+      <a href="#">Ver catálogo</a>
+      <a href="#">Cotizar →</a>
+    </div>
+  </div>
+  <div class="hero-img">
+    <img src="/products/Pack Gallinero.png" alt="Pack Gallinero" onerror="this.src='https://via.placeholder.com/400x400/F8F8F8/888?text=Mashu'">
+    <span class="tag">Nuevo 2026</span>
+  </div>
+</section>
+
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item"><span class="ticker-dot"></span>Sin conservantes artificiales</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Proteína real como primer ingrediente</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Formulado por nutricionistas veterinarios</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Respuesta en menos de 24 horas</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Para perros y gatos</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Sin conservantes artificiales</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Proteína real como primer ingrediente</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Formulado por nutricionistas veterinarios</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Respuesta en menos de 24 horas</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Para perros y gatos</span>
+  </div>
+</div>
+
+<section class="products">
+  <div class="section-head">
+    <h2>Productos destacados</h2>
+    <a href="#">Ver todo el catálogo →</a>
+  </div>
+  <div class="products-grid">
+    <div class="product">
+      <div class="thumb"><img src="/products/Caldo Pollo.png" alt="Caldo de Pollo" onerror="this.src='https://via.placeholder.com/300x300/F8F8F8/888?text=C'"></div>
+      <div class="info">
+        <div class="cat">Caldos</div>
+        <h3>Caldo de Pollo</h3>
+        <p class="desc">Hidratación natural con proteína real. Rico en colágeno.</p>
+        <a href="#" class="add">+ Cotizar</a>
+      </div>
+    </div>
+    <div class="product">
+      <div class="thumb"><img src="/products/Carne Vaquera.png" alt="Carne Vaquera" onerror="this.src='https://via.placeholder.com/300x300/F8F8F8/888?text=C'"></div>
+      <div class="info">
+        <div class="cat">Carnes</div>
+        <h3>Carne Vaquera</h3>
+        <p class="desc">Proteína premium de primera calidad. Receta artesanal.</p>
+        <a href="#" class="add">+ Cotizar</a>
+      </div>
+    </div>
+    <div class="product">
+      <div class="thumb"><img src="/products/Pollo Granjero.png" alt="Pollo Granjero" onerror="this.src='https://via.placeholder.com/300x300/F8F8F8/888?text=P'"></div>
+      <div class="info">
+        <div class="cat">Aves</div>
+        <h3>Pollo Granjero</h3>
+        <p class="desc">Pollo de campo con sabor auténtico y digestión fácil.</p>
+        <a href="#" class="add">+ Cotizar</a>
+      </div>
+    </div>
+    <div class="product">
+      <div class="thumb"><img src="/products/Pack Gallinero.png" alt="Pack Gallinero" onerror="this.src='https://via.placeholder.com/300x300/F8F8F8/888?text=P'"></div>
+      <div class="info">
+        <div class="cat">Packs</div>
+        <h3>Pack Gallinero</h3>
+        <p class="desc">El pack favorito de las familias. Variedad completa.</p>
+        <a href="#" class="add">+ Cotizar</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="numbers">
+  <div class="number-item"><div class="n">2,400+</div><div class="l">Mascotas alimentadas</div></div>
+  <div class="number-item"><div class="n">97%</div><div class="l">Clientes satisfechos</div></div>
+  <div class="number-item"><div class="n">24hs</div><div class="l">Tiempo de respuesta</div></div>
+  <div class="number-item"><div class="n">4.9 ★</div><div class="l">Calificación</div></div>
+</section>
+
+<section class="statement">
+  <div class="statement-img">
+    <div><img src="/products/Pollo Ranchero.png" alt="" onerror="this.style.background='#EEE'"></div>
+    <div><img src="/products/Caldo Res.png" alt="" onerror="this.style.background='#EEE'"></div>
+    <div><img src="/products/Puré Hígado.png" alt="" onerror="this.style.background='#EEE'"></div>
+  </div>
+  <div class="statement-text">
+    <h2>No todos los alimentos son iguales.</h2>
+    <p>La mayoría de los alimentos masivos usan harinas de baja calidad, conservantes artificiales y muy poca proteína real. El resultado: mascotas con problemas digestivos, pelaje opaco y menos energía.</p>
+    <p>Mashu usa ingredientes que podés pronunciar. Cada fórmula empieza con proteína real.</p>
+    <a href="#" class="statement-link">Ver todos los productos →</a>
+  </div>
+</section>
+
+<section class="steps">
+  <div class="section-head">
+    <h2>Cómo funciona</h2>
+  </div>
+  <div class="steps-grid">
+    <div class="step">
+      <div class="num">01</div>
+      <div class="icon">📦</div>
+      <h3>Elegí tus productos</h3>
+      <p>Explorá el catálogo y agregá lo que necesitás a tu lista de cotización.</p>
+    </div>
+    <div class="step">
+      <div class="num">02</div>
+      <div class="icon">💬</div>
+      <h3>Cotizá por WhatsApp</h3>
+      <p>Con un clic mandamos tu lista. Te respondemos en menos de 24 horas.</p>
+    </div>
+    <div class="step">
+      <div class="num">03</div>
+      <div class="icon">🏠</div>
+      <h3>Recibís tu pedido</h3>
+      <p>Coordinamos la entrega y tu mascota come mejor desde el primer día.</p>
+    </div>
+  </div>
+</section>
+
+<section class="promise">
+  <div>
+    <h2>Ingredientes que podés <em>pronunciar.</em></h2>
+    <div class="promise-checks">
+      <div class="promise-check"><div class="check-icon">✓</div><div class="check-text">Proteína real como primer ingrediente en cada fórmula</div></div>
+      <div class="promise-check"><div class="check-icon">✓</div><div class="check-text">Sin colorantes, saborizantes ni conservantes artificiales</div></div>
+      <div class="promise-check"><div class="check-icon">✓</div><div class="check-text">Supervisado por nutricionistas veterinarios especializados</div></div>
+    </div>
+  </div>
+  <div class="promise-img">
+    <img src="/products/Pollo Granjero.png" alt="" onerror="this.style.opacity='0.2'">
+  </div>
+</section>
+
+<section class="newsletter">
+  <div>
+    <h2>Tips y ofertas exclusivas</h2>
+    <p>Novedades, recetas y consejos de nutrición directo a tu email. Sin spam.</p>
+  </div>
+  <div>
+    <div class="nl-form">
+      <input type="email" placeholder="tu@email.com">
+      <button type="button">Suscribirse</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">
+    Mashu Petfood
+    <small>© 2026 · Nutrición natural para mascotas</small>
+  </div>
+  <div class="footer-links">
+    <a href="#">Catálogo</a>
+    <a href="#">Novedades</a>
+    <a href="#">Contacto</a>
+    <a href="#">WhatsApp</a>
+  </div>
+</footer>
+
+</body>
+</html>
